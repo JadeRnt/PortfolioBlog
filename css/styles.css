@@ -3,8 +3,8 @@ General
 ========================================================================== */
 a { color: #051015; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; -o-transition: all 0.5s; transition: all 0.5s; }
 a:hover, a:focus { color: #051015; text-decoration: none; }
-p { color: #051015; word-spacing: 1px; line-height: 25px; font-size: 14px; }
-h2 { font-size: 15px; color: #2f576e; text-transform: uppercase; font-weight: bold; }
+p { color: #051015; word-spacing: 1px; line-height: 25px; font-size: 1.5em; }
+h2 { font-size: 1.75em; color: #2f576e; text-transform: uppercase; font-weight: bold; }
 h2::after { content: " "; border: solid 2px #2f576e; display: block; width: 35px; margin: 25px auto; }
 p {color: #2f576e
 }
