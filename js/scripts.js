@@ -51,7 +51,6 @@ $(function() {
 
 	$('a[href*=#]:not([href=#])').click(function() {
 		if (location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') && location.hostname === this.hostname) {
-
 			var target = $(this.hash);
 			target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
 			if (target.length) {
@@ -66,46 +65,37 @@ $(function() {
 });
 
 /***************** Nav Transformicon ******************/
+document.addEventListener('DOMContentLoaded', function() {
+	// Fonction pour ouvrir le menu
+	function openMenu() {
+		document.body.style.overflow = 'hidden'; // Empêcher le défilement de la page lorsque le menu est ouvert
+		document.getElementById('nav-toggle').classList.add('active'); // Ajouter la classe active pour l'icône du menu
+		document.querySelector('nav.pull').classList.add('open'); // Ajouter la classe open pour le menu
+	}
 
-document.querySelector("#nav-toggle").addEventListener("click", function() {
-	this.classList.toggle("active");
-});
+	// Fonction pour fermer le menu
+	function closeMenu() {
+		document.body.style.overflow = ''; // Rétablir le défilement de la page lorsque le menu est fermé
+		document.getElementById('nav-toggle').classList.remove('active'); // Supprimer la classe active pour l'icône du menu
+		document.querySelector('nav.pull').classList.remove('open'); // Supprimer la classe open pour le menu
+	}
 
-/***************** Flexsliders ******************/
-
-$(window).load(function() {
-
-	$('#portfolioSlider').flexslider({
-		animation: "slide",
-		directionNav: false,
-		controlNav: true,
-		touch: false,
-		pauseOnHover: true,
-		start: function() {
-			$.waypoints('refresh');
+	// Ajouter un écouteur d'événements au bouton de menu
+	document.getElementById('nav-toggle').addEventListener('click', function(event) {
+		event.preventDefault(); // Empêche le comportement par défaut du lien
+		var isActive = this.classList.contains('active'); // Vérifier si le menu est actif
+		if (!isActive) {
+			openMenu(); // Appeler la fonction pour ouvrir le menu
+		} else {
+			closeMenu(); // Appeler la fonction pour fermer le menu
 		}
 	});
 
-	$('#servicesSlider').flexslider({
-		animation: "slide",
-		directionNav: false,
-		controlNav: true,
-		touch: true,
-		pauseOnHover: true,
-		start: function() {
-			$.waypoints('refresh');
-		}
+	// Ajouter des écouteurs d'événements à chaque élément du menu pour fermer le menu lorsqu'il est cliqué
+	var menuItems = document.querySelectorAll('nav.pull a');
+	menuItems.forEach(function(item) {
+		item.addEventListener('click', function() {
+			closeMenu(); // Appeler la fonction pour fermer le menu
+		});
 	});
-
-	$('#teamSlider').flexslider({
-		animation: "slide",
-		directionNav: false,
-		controlNav: true,
-		touch: true,
-		pauseOnHover: true,
-		start: function() {
-			$.waypoints('refresh');
-		}
-	});
-
 });
