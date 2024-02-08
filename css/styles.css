@@ -3,11 +3,11 @@ General
 ========================================================================== */
 a { color: #051015; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; -o-transition: all 0.5s; transition: all 0.5s; }
 a:hover, a:focus { color: #051015; text-decoration: none; }
-p { color: #051015; word-spacing: 1px; line-height: 25px; font-size: 1.75em; }
+p { color: #051015; word-spacing: 1px; line-height: 25px; font-size: 1.5em; }
 h2 { font-size: 1.75em; color: #2f576e; text-transform: uppercase; font-weight: bold; }
 h2::after { content: " "; border: solid 2px #2f576e; display: block; width: 35px; margin: 25px auto; }
 p {color: #2f576e; font-size: 1.5em;}
-h1 {color:#0d1f2d}
+h1 {color:#0d1f2d; font-size: 2em;}
 en {color:#0d1f2d}
 .section-padding { padding: 90px 0 100px }
 .dark-bg { background: #f3f5f8; }
@@ -56,7 +56,7 @@ Présentation
 ========================================================================== */
 .intro { background: #f3f5f8; }
 .intro p { margin: 50px 0 0; }
-h1.arrow { font-size: 15px; text-transform: uppercase; color: #2f576e; letter-spacing: 1px; background: url('../img/h1-bg.png') no-repeat center bottom; padding-bottom: 30px; font-weight: bold; }
+h1.arrow { font-size: 1.75em; text-transform: uppercase; color: #2f576e; letter-spacing: 1px; background: url('../img/h1-bg.png') no-repeat center bottom; padding-bottom: 30px; font-weight: bold; }
 /* ==========================================================================
 Projets
 ========================================================================== */
@@ -73,7 +73,6 @@ ul.social-buttons li:last-child { margin-right: 0; }
 .social-btn { width: 40px; height: 40px; border-radius: 50%; -moz-border-radius: 50%; -webkit-border-radius: 50%; -o-border-radius: 50%; display: inline-block; font-size: 17px; line-height: 40px; text-align: center; }
 .social-btn:hover, .social-btn:focus { background: #2f576e; color: #fff; }
 .social { margin-top: 25px }
-
 /* ==========================================================================
 Animation
 ========================================================================== */
