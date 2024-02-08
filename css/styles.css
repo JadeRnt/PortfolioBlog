@@ -23,7 +23,23 @@ en {color:#0d1f2d}
 /* ==========================================================================
 Menu burger
 ========================================================================== */
-nav { background-color: #ccdae8; margin-top: -1px; }
+nav {
+    background-color: #ccdae8;
+    padding: 0;
+    margin-top: -1px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+.top-nav a {
+    padding-left: 15%;
+}
+
+.top-nav {
+    padding: 2%;
+}
 nav ul { list-style: none; padding: 0; }
 nav ul li { color: rgb(13, 31, 45); display: block; border-bottom: 1px dotted rgb(13, 31, 45); transition: all 0.5s ease; -moz-transition: all 0.5s ease; -webkit-transition: all 0.5s ease; -o-transition: all 0.5s ease; padding-left: 0; position: relative; }
 nav ul li:last-child { border: none; }

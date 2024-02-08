@@ -66,36 +66,22 @@ $(function() {
 
 /***************** Nav Transformicon ******************/
 document.addEventListener('DOMContentLoaded', function() {
-	// Fonction pour ouvrir le menu
 	function openMenu() {
-		document.body.style.overflow = 'hidden'; // Empêcher le défilement de la page lorsque le menu est ouvert
-		document.getElementById('nav-toggle').classList.add('active'); // Ajouter la classe active pour l'icône du menu
-		document.querySelector('nav.pull').classList.add('open'); // Ajouter la classe open pour le menu
+		document.getElementById('nav-toggle').classList.add('active');
+		document.querySelector('nav.pull').classList.add('open');
 	}
 
-	// Fonction pour fermer le menu
 	function closeMenu() {
-		document.body.style.overflow = ''; // Rétablir le défilement de la page lorsque le menu est fermé
-		document.getElementById('nav-toggle').classList.remove('active'); // Supprimer la classe active pour l'icône du menu
-		document.querySelector('nav.pull').classList.remove('open'); // Supprimer la classe open pour le menu
+		document.getElementById('nav-toggle').classList.remove('active');
+		document.querySelector('nav.pull').classList.remove('open');
 	}
 
-	// Ajouter un écouteur d'événements au bouton de menu
 	document.getElementById('nav-toggle').addEventListener('click', function(event) {
-		event.preventDefault(); // Empêche le comportement par défaut du lien
-		var isActive = this.classList.contains('active'); // Vérifier si le menu est actif
-		if (!isActive) {
-			openMenu(); // Appeler la fonction pour ouvrir le menu
+		event.preventDefault();
+		if (!this.classList.contains('active')) {
+			openMenu()
 		} else {
-			closeMenu(); // Appeler la fonction pour fermer le menu
+			closeMenu()
 		}
-	});
-
-	// Ajouter des écouteurs d'événements à chaque élément du menu pour fermer le menu lorsqu'il est cliqué
-	var menuItems = document.querySelectorAll('nav.pull a');
-	menuItems.forEach(function(item) {
-		item.addEventListener('click', function() {
-			closeMenu(); // Appeler la fonction pour fermer le menu
-		});
 	});
 });
