@@ -18,11 +18,11 @@ p {
     color: #051015;
     word-spacing: 1px;
     line-height: 25px;
-    font-size: 2em;
+    font-size: 3em;
 }
 
 h2 {
-    font-size: 2.25em;
+    font-size: 3.25em;
     color: #2f576e;
     text-transform: uppercase;
     font-weight: bold;
@@ -38,12 +38,12 @@ h2::after {
 
 p {
     color: #2f576e;
-    font-size: 2em;
+    font-size: 3em;
 }
 
 h1 {
     color: #0d1f2d;
-    font-size: 2.5em;
+    font-size: 3.5em;
 }
 
 en {
@@ -360,7 +360,7 @@ Présentation
 }
 
 h1.arrow {
-    font-size: 2em;
+    font-size: 3em;
     text-transform: uppercase;
     color: #2f576e;
     letter-spacing: 1px;
