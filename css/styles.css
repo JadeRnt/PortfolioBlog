@@ -60,12 +60,88 @@ nav ul li a:hover, nav ul li a:focus { text-decoration: none; color: rgb(13, 31,
 /* ==========================================================================
 Portfolio de Jade Renaut
 ========================================================================== */
-.hero::before {content: ''; background: url('../img/hero-bg.jpg') no-repeat center center;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;height: 100%;width: 100%;position: absolute;top: 0;left: 0;opacity: 0.7;filter: blur(5px);z-index: -1;}
-.hero {position: relative;height: auto;}
-.hero h1 {font-size: 40px;letter-spacing: 12px;margin: 10px;z-index: 1;text-shadow: 2px 2px 4px rgb(5, 16, 21);}
-.hero h1 span {color: #051015;display: inline-block;z-index: 1;}
-.hero p {letter-spacing: 1px;z-index: 1;text-shadow: 1px 1px 2px rgb(5, 16, 21);}
-.learn-more-btn { background: rgb(5, 16, 21); padding: 20px 40px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; -o-border-radius: 5px; color: #051015; text-transform: uppercase; letter-spacing: 1px; display: inline-block; -webkit-box-shadow: 0px 3px 0px 0px #051015; -moz-box-shadow: 0px 3px 0px 0px #051015; box-shadow: 0px 3px 0px 0px #309383; margin: 60px 0 0; font-weight: bold; }
+.hero {
+    position: relative;
+    height: auto;
+}
+
+.hero::before {
+    content: '';
+    background: url('../img/hero-bg.jpg') no-repeat center right;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.7;
+    filter: blur(5px);
+    z-index: -1;
+}
+
+.hero::after {
+    content: '';
+    background-color: #002950;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -2; /* Assurez-vous que le fond bleu est derrière l'image de fond */
+}
+
+.hero h1 {
+    font-size: 40px;
+    letter-spacing: 12px;
+    margin: 10px;
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgb(5, 16, 21);
+}
+
+.hero h1 span {
+    color: #051015;
+    display: inline-block;
+    z-index: 1;
+}
+
+.hero p {
+    letter-spacing: 1px;
+    z-index: 1;
+    text-shadow: 1px 1px 2px rgb(5, 16, 21);
+}
+
+.learn-more-btn {
+    background: rgb(5, 16, 21);
+    padding: 20px 40px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    color: #051015;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    -webkit-box-shadow: 0px 3px 0px 0px #051015;
+    -moz-box-shadow: 0px 3px 0px 0px #051015;
+    box-shadow: 0px 3px 0px 0px #309383;
+    margin: 60px 0 0;
+    font-weight: bold;
+}
+
+.learn-more-btn:hover,
+.learn-more-btn:focus {
+    background: rgb(5, 16, 21);
+    color: #051015;
+}
+
+.hero .inner h1,
+.hero .inner p {
+    color: #FDD10A;
+}
+.learn-more-btn { background: rgb(5, 16, 21); padding: 20px 40px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; -o-border-radius: 5px; color: #FFFF00; text-transform: uppercase; letter-spacing: 1px; display: inline-block; -webkit-box-shadow: 0px 3px 0px 0px #FFFF00; -moz-box-shadow: 0px 3px 0px 0px #FFFF00; box-shadow: 0px 3px 0px 0px #FFFF00; margin: 60px 0 0; font-weight: bold; }
 .learn-more-btn:hover, .learn-more-btn:focus { background: rgb(5, 16, 21); color: #051015; }
 /* ==========================================================================
 Présentation
