@@ -1,25 +1,113 @@
 /* ==========================================================================
 General
 ========================================================================== */
-a { color: #051015; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; -o-transition: all 0.5s; transition: all 0.5s; }
-a:hover, a:focus { color: #051015; text-decoration: none; }
-p { color: #051015; word-spacing: 1px; line-height: 25px; font-size: 1.5em; }
-h2 { font-size: 1.75em; color: #2f576e; text-transform: uppercase; font-weight: bold; }
-h2::after { content: " "; border: solid 2px #2f576e; display: block; width: 35px; margin: 25px auto; }
-p {color: #2f576e; font-size: 1.5em;}
-h1 {color:#0d1f2d; font-size: 2em;}
-en {color:#0d1f2d}
-.section-padding { padding: 90px 0 100px }
-.dark-bg { background: #f3f5f8; }
-.light-bg { background-color: #fff; }
-.dark-box { background: #f3f5f8; -webkit-box-shadow: 0px 3px 0px 0px #f0f2f4; -moz-box-shadow: 0px 3px 0px 0px #f0f2f4; box-shadow: 0px 3px 0px 0px #f0f2f4; }
-.light-box { background-color: #fff; -webkit-box-shadow: 0px 3px 0px 0px #f0f2f4; -moz-box-shadow: 0px 3px 0px 0px #f0f2f4; box-shadow: 0px 3px 0px 0px #f0f2f4; padding: 20px 0; }
-.light-box:hover, .light-box:focus { -webkit-box-shadow: 0px 3px 0px 0px #051015; -moz-box-shadow: 0px 3px 0px 0px #051015; box-shadow: 0px 3px 0px 0px #051015; }
-.box-hover { transition: all 500ms ease-in-out; -webkit-transition: all 500ms ease-in-out; -moz-transition: all 500ms ease-in-out; -o-transition: all 500ms ease-in-out; }
-.box-hover:hover, .box-hover:focus { transform: translate(0, -15px); -webkit-transform: translate(0, -15px); -ms-transform: translate(0, -15px); }
-.wrapper { height: 650px; }
-.nopadding { padding: 0; }
-.inner { padding-top: 170px; }
+a {
+    color: #051015;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+a:hover, a:focus {
+    color: #051015;
+    text-decoration: none;
+}
+
+p {
+    color: #051015;
+    word-spacing: 1px;
+    line-height: 25px;
+    font-size: 1.75em;
+}
+
+h2 {
+    font-size: 2em;
+    color: #2f576e;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+h2::after {
+    content: " ";
+    border: solid 2px #2f576e;
+    display: block;
+    width: 35px;
+    margin: 25px auto;
+}
+
+p {
+    color: #2f576e;
+    font-size: 1.75em;
+}
+
+h1 {
+    color: #0d1f2d;
+    font-size: 2.25em;
+}
+
+en {
+    color: #0d1f2d
+}
+
+.section-padding {
+    padding: 90px 0 100px
+}
+
+.dark-bg {
+    background: #f3f5f8;
+}
+
+.light-bg {
+    background-color: #fff;
+}
+
+.dark-box {
+    background: #f3f5f8;
+    -webkit-box-shadow: 0px 3px 0px 0px #f0f2f4;
+    -moz-box-shadow: 0px 3px 0px 0px #f0f2f4;
+    box-shadow: 0px 3px 0px 0px #f0f2f4;
+}
+
+.light-box {
+    background-color: #fff;
+    -webkit-box-shadow: 0px 3px 0px 0px #f0f2f4;
+    -moz-box-shadow: 0px 3px 0px 0px #f0f2f4;
+    box-shadow: 0px 3px 0px 0px #f0f2f4;
+    padding: 20px 0;
+}
+
+.light-box:hover, .light-box:focus {
+    -webkit-box-shadow: 0px 3px 0px 0px #051015;
+    -moz-box-shadow: 0px 3px 0px 0px #051015;
+    box-shadow: 0px 3px 0px 0px #051015;
+}
+
+.box-hover {
+    transition: all 500ms ease-in-out;
+    -webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    -o-transition: all 500ms ease-in-out;
+}
+
+.box-hover:hover, .box-hover:focus {
+    transform: translate(0, -15px);
+    -webkit-transform: translate(0, -15px);
+    -ms-transform: translate(0, -15px);
+}
+
+.wrapper {
+    height: 650px;
+}
+
+.nopadding {
+    padding: 0;
+}
+
+.inner {
+    padding-top: 170px;
+}
+
 /* ==========================================================================
 Menu burger
 ========================================================================== */
@@ -33,6 +121,7 @@ nav {
     width: 100%;
     z-index: 100;
 }
+
 .top-nav a {
     padding-left: 15%;
 }
@@ -40,23 +129,117 @@ nav {
 .top-nav {
     padding: 2%;
 }
-nav ul { list-style: none; padding: 0; }
-nav ul li { color: rgb(13, 31, 45); display: block; border-bottom: 1px dotted rgb(13, 31, 45); transition: all 0.5s ease; -moz-transition: all 0.5s ease; -webkit-transition: all 0.5s ease; -o-transition: all 0.5s ease; padding-left: 0; position: relative; }
-nav ul li:last-child { border: none; }
-nav ul li a { color: rgb(13, 31, 45); display: block; padding: 20px; transition: all 0.5s ease; -moz-transition: all 0.5s ease; -webkit-transition: all 0.5s ease; -o-transition: all 0.5s ease; padding-left: 0; position: relative; }
-nav ul li a:hover, nav ul li a:focus { text-decoration: none; color: rgb(13, 31, 45); }
-#nav-toggle { position: fixed; right: 10px; top: 10px; z-index: 101; }
-#nav-toggle { cursor: pointer; padding: 10px 35px 16px 0px; z-index: 101;}
-#nav-toggle span, #nav-toggle span:before, #nav-toggle span:after { cursor: pointer; border-radius: 1px; -moz-border-radius: 1px; -webkit-border-radius: 1px; -o-border-radius: 1px; height: 5px; width: 35px; background: #051015; position: absolute; display: block; content: ''; }
-#nav-toggle span:before { top: -10px; }
-#nav-toggle span:after { bottom: -10px; }
-#nav-toggle span, #nav-toggle span:before, #nav-toggle span:after { transition: all 500ms ease-in-out; -webkit-transition: all 500ms ease-in-out; -moz-transition: all 500ms ease-in-out; -o-transition: all 500ms ease-in-out; }
-#nav-toggle.active span { background-color: transparent; }
-#nav-toggle.active span:before, #nav-toggle.active span:after { top: 0; }
-#nav-toggle.active span:before { transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); }
-#nav-toggle.active span:after { transform: translateY(-10px) rotate(-45deg); -webkit-transform: translateY(-10px) rotate(-45deg); -ms-transform: translateY(-10px) rotate(-45deg); top: 10px; }
-.navicon { position: relative; height: 26px; }
-.pull { display: none; }
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    color: rgb(13, 31, 45);
+    display: block;
+    border-bottom: 1px dotted rgb(13, 31, 45);
+    transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    padding-left: 0;
+    position: relative;
+}
+
+nav ul li:last-child {
+    border: none;
+}
+
+nav ul li a {
+    color: rgb(13, 31, 45);
+    display: block;
+    padding: 20px;
+    transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    padding-left: 0;
+    position: relative;
+}
+
+nav ul li a:hover, nav ul li a:focus {
+    text-decoration: none;
+    color: rgb(13, 31, 45);
+}
+
+#nav-toggle {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    z-index: 101;
+}
+
+#nav-toggle {
+    cursor: pointer;
+    padding: 10px 35px 16px 0px;
+    z-index: 101;
+}
+
+#nav-toggle span, #nav-toggle span:before, #nav-toggle span:after {
+    cursor: pointer;
+    border-radius: 1px;
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
+    -o-border-radius: 1px;
+    height: 5px;
+    width: 35px;
+    background: #051015;
+    position: absolute;
+    display: block;
+    content: '';
+}
+
+#nav-toggle span:before {
+    top: -10px;
+}
+
+#nav-toggle span:after {
+    bottom: -10px;
+}
+
+#nav-toggle span, #nav-toggle span:before, #nav-toggle span:after {
+    transition: all 500ms ease-in-out;
+    -webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    -o-transition: all 500ms ease-in-out;
+}
+
+#nav-toggle.active span {
+    background-color: transparent;
+}
+
+#nav-toggle.active span:before, #nav-toggle.active span:after {
+    top: 0;
+}
+
+#nav-toggle.active span:before {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+}
+
+#nav-toggle.active span:after {
+    transform: translateY(-10px) rotate(-45deg);
+    -webkit-transform: translateY(-10px) rotate(-45deg);
+    -ms-transform: translateY(-10px) rotate(-45deg);
+    top: 10px;
+}
+
+.navicon {
+    position: relative;
+    height: 26px;
+}
+
+.pull {
+    display: none;
+}
+
 /* ==========================================================================
 Portfolio de Jade Renaut
 ========================================================================== */
@@ -141,34 +324,130 @@ Portfolio de Jade Renaut
 .hero .inner p {
     color: #FDD10A;
 }
-.learn-more-btn { background: rgb(5, 16, 21); padding: 20px 40px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; -o-border-radius: 5px; color: #FFFF00; text-transform: uppercase; letter-spacing: 1px; display: inline-block; -webkit-box-shadow: 0px 3px 0px 0px #FFFF00; -moz-box-shadow: 0px 3px 0px 0px #FFFF00; box-shadow: 0px 3px 0px 0px #FFFF00; margin: 60px 0 0; font-weight: bold; }
-.learn-more-btn:hover, .learn-more-btn:focus { background: rgb(5, 16, 21); color: #051015; }
+
+.learn-more-btn {
+    background: rgb(5, 16, 21);
+    padding: 20px 40px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    color: #FFFF00;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    -webkit-box-shadow: 0px 3px 0px 0px #FFFF00;
+    -moz-box-shadow: 0px 3px 0px 0px #FFFF00;
+    box-shadow: 0px 3px 0px 0px #FFFF00;
+    margin: 60px 0 0;
+    font-weight: bold;
+}
+
+.learn-more-btn:hover, .learn-more-btn:focus {
+    background: rgb(5, 16, 21);
+    color: #051015;
+}
+
 /* ==========================================================================
 Présentation
 ========================================================================== */
-.intro { background: #f3f5f8; }
-.intro p { margin: 50px 0 0; }
-h1.arrow { font-size: 1.75em; text-transform: uppercase; color: #2f576e; letter-spacing: 1px; background: url('../img/h1-bg.png') no-repeat center bottom; padding-bottom: 30px; font-weight: bold; }
+.intro {
+    background: #f3f5f8;
+}
+
+.intro p {
+    margin: 50px 0 0;
+}
+
+h1.arrow {
+    font-size: 1.75em;
+    text-transform: uppercase;
+    color: #2f576e;
+    letter-spacing: 1px;
+    background: url('../img/h1-bg.png') no-repeat center bottom;
+    padding-bottom: 30px;
+    font-weight: bold;
+}
+
 /* ==========================================================================
 Projets
 ========================================================================== */
-.features-wrapper, .team-wrapper { margin: 70px 0 0; }
-.shadow { text-shadow: rgb(47, 87, 110) 1px 1px, rgb(47, 87, 110) 2px 2px, rgb(47, 87, 110) 3px 3px, rgb(47, 87, 110) 4px 4px, rgb(55, 181, 161) 5px 5px, rgb(55, 181, 161) 6px 6px, rgb(55, 181, 161) 7px 7px, rgb(55, 181, 161) 8px 8px, rgb(55, 181, 161) 9px 9px, rgb(55, 181, 161) 10px 10px, rgb(55, 181, 161) 11px 11px, rgb(55, 181, 161) 12px 12px, rgb(55, 182, 162) 13px 13px, rgb(55, 183, 163) 14px 14px, rgb(56, 184, 164) 15px 15px, rgb(56, 185, 165) 16px 16px, rgb(56, 186, 166) 17px 17px, rgb(57, 187, 167) 18px 18px, rgb(57, 188, 168) 19px 19px, rgb(57, 189, 169) 20px 20px, rgb(58, 191, 170) 21px 21px, rgb(58, 192, 171) 22px 22px, rgb(58, 193, 172) 23px 23px, rgb(59, 194, 173) 24px 24px, rgb(59, 195, 174) 25px 25px, rgb(59, 196, 175) 26px 26px, rgb(60, 197, 176) 27px 27px, rgb(60, 198, 177) 28px 28px, rgb(60, 199, 178) 29px 29px, rgb(61, 201, 179) 30px 30px; }
-.icon {object-fit: cover; height: 175px; width: 175px;  margin: 0 auto 50px; }
+.features-wrapper, .team-wrapper {
+    margin: 70px 0 0;
+}
+
+.shadow {
+    text-shadow: rgb(47, 87, 110) 1px 1px, rgb(47, 87, 110) 2px 2px, rgb(47, 87, 110) 3px 3px, rgb(47, 87, 110) 4px 4px, rgb(55, 181, 161) 5px 5px, rgb(55, 181, 161) 6px 6px, rgb(55, 181, 161) 7px 7px, rgb(55, 181, 161) 8px 8px, rgb(55, 181, 161) 9px 9px, rgb(55, 181, 161) 10px 10px, rgb(55, 181, 161) 11px 11px, rgb(55, 181, 161) 12px 12px, rgb(55, 182, 162) 13px 13px, rgb(55, 183, 163) 14px 14px, rgb(56, 184, 164) 15px 15px, rgb(56, 185, 165) 16px 16px, rgb(56, 186, 166) 17px 17px, rgb(57, 187, 167) 18px 18px, rgb(57, 188, 168) 19px 19px, rgb(57, 189, 169) 20px 20px, rgb(58, 191, 170) 21px 21px, rgb(58, 192, 171) 22px 22px, rgb(58, 193, 172) 23px 23px, rgb(59, 194, 173) 24px 24px, rgb(59, 195, 174) 25px 25px, rgb(59, 196, 175) 26px 26px, rgb(60, 197, 176) 27px 27px, rgb(60, 198, 177) 28px 28px, rgb(60, 199, 178) 29px 29px, rgb(61, 201, 179) 30px 30px;
+}
+
+.icon {
+    object-fit: cover;
+    height: 175px;
+    width: 175px;
+    margin: 0 auto 50px;
+}
+
 /* ==========================================================================
 Contact
 ========================================================================== */
-.team img { margin-bottom: 40px; }
-ul.social-buttons { list-style: none; margin: 0; padding: 0; }
-ul.social-buttons li { display: inline-block; margin-right: 10px; }
-ul.social-buttons li:last-child { margin-right: 0; }
-.social-btn { width: 40px; height: 40px; border-radius: 50%; -moz-border-radius: 50%; -webkit-border-radius: 50%; -o-border-radius: 50%; display: inline-block; font-size: 17px; line-height: 40px; text-align: center; }
-.social-btn:hover, .social-btn:focus { background: #2f576e; color: #fff; }
-.social { margin-top: 25px }
+.team img {
+    margin-bottom: 40px;
+}
+
+ul.social-buttons {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.social-buttons li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+ul.social-buttons li:last-child {
+    margin-right: 0;
+}
+
+.social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -o-border-radius: 50%;
+    display: inline-block;
+    font-size: 17px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.social-btn:hover, .social-btn:focus {
+    background: #2f576e;
+    color: #fff;
+}
+
+.social {
+    margin-top: 25px
+}
+
 /* ==========================================================================
 Animation
 ========================================================================== */
-.wp1, .wp2, .wp3, .wp4, .wp5, .wp6 { visibility: hidden; }
-.bounceInLeft, .bounceInRight, .fadeInUp, .fadeInUpDelay, .fadeInDown, .fadeInUpD, .fadeInLeft, .fadeInRight { visibility: visible; }
-.delay-05s { animation-delay: 0.5s; -webkit-animation-delay: 0.5s; }
-.delay-1s { animation-delay: 1s; -webkit-animation-delay: 1s; }
+.wp1, .wp2, .wp3, .wp4, .wp5, .wp6 {
+    visibility: hidden;
+}
+
+.bounceInLeft, .bounceInRight, .fadeInUp, .fadeInUpDelay, .fadeInDown, .fadeInUpD, .fadeInLeft, .fadeInRight {
+    visibility: visible;
+}
+
+.delay-05s {
+    animation-delay: 0.5s;
+    -webkit-animation-delay: 0.5s;
+}
+
+.delay-1s {
+    animation-delay: 1s;
+    -webkit-animation-delay: 1s;
+}
