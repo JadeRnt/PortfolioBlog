@@ -1,24 +1,6 @@
 /* ==========================================================================
 General
 ========================================================================== */
-a,
-p,
-h2,
-h1,
-.learn-more-btn {
-    font-size: 1.5em; /* Default font size for general elements */
-}
-
-@media only screen and (max-width: 768px) {
-    a,
-    p,
-    h2,
-    h1,
-    .learn-more-btn {
-        font-size: 1.2em;
-    }
-}
-
 a {
     color: #051015;
     -webkit-transition: all 0.5s;
