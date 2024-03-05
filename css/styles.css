@@ -108,6 +108,18 @@ en {
     padding-top: 170px;
 }
 
+.video-container {
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+}
+
 /* ==========================================================================
 Menu burger
 ========================================================================== */
@@ -146,6 +158,18 @@ nav ul li {
     -o-transition: all 0.5s ease;
     padding-left: 0;
     position: relative;
+}
+
+.features-wrapper ul li {
+    list-style-type: none;
+}
+
+.features-wrapper ul li::before {
+    content: "\2022";
+    color: transparent;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
 }
 
 nav ul li:last-child {
