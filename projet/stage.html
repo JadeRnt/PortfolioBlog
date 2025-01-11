@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Portfolio de Jade Renaut</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/animate.css" rel="stylesheet">
+</head>
+<body>
+<nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2">
+                <nav class="pull">
+                    <ul class="top-nav">
+                        <li><a href="#presentation">Présentation de l'entreprise<span class="indicator"><i
+                                class="fa fa-angle-right"></i></span></a></li>
+                        <li><a href="#projet">Projet Réalisé<span class="indicator"><i
+                                class="fa fa-angle-right"></i></span></a></li>
+                        <li><a href="#features">Compétences<span class="indicator"><i
+                                class="fa fa-angle-right"></i></span></a></li>
+                        <li><a href="#contact">Contact<span class="indicator"><i
+                                class="fa fa-angle-right"></i></span></a></li>
+                        <li>
+                            <a onclick="window.location='https://jadernt.github.io/Portfolio/';"
+                               style="cursor: pointer;">Retourner à la page principale<span class="indicator"><i
+                                    class="fa fa-angle-right"></i></span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+<section class="hero" id="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-right navicon">
+                <a id="nav-toggle" class="nav_slide_button" href="#"><span></span></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center inner">
+                <h1 class="animated fadeInDown">Portfolio de Jade Renaut</span></h1>
+                <p class="animated fadeInUp delay-05s">Etudiante en troisième année de BUT Informatique</en></p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="features text-center section-padding" class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="arrow" id="presentation" >Expérience de Stage chez NanoXplore</h1>
+                <p>NanoXplore est une entreprise innovante spécialisée dans les FPGA (Field-Programmable Gate Arrays) et les e-FPGA spatiaux. Fondée en 2010, l'entreprise se positionne comme un leader dans le domaine des semi-conducteurs européens, avec une vision de réinventer l'avenir à travers des solutions technologiques de pointe.</p>
+                <p>Située à Paris, NanoXplore développe des produits révolutionnaires tels que le NG-Medium et le NG-Ultra, des FPGA conçus pour répondre aux besoins des missions spatiales en offrant une combinaison optimale de puissance de traitement, d'efficacité énergétique et de fiabilité. Ces FPGA sont largement utilisés dans une variété d'applications spatiales, notamment les satellites de communication, les sondes spatiales d'exploration et les missions scientifiques.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="features text-center section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="arrow" id="projet">Projets</h1>
+                <div class="features-wrapper">
+                    <p>Durant mon stage chez NanoXplore, j'ai eu l'opportunité de travailler sur plusieurs projets captivants visant à optimiser les performances des composants électroniques en utilisant des diagrammes créés à partir de fichiers JSON.</p>
+                    <ul>
+                        <li><p><strong>Projet 1 : Analyse de slack en fonction des différents cas de timing</strong></p>
+                            <p>Ce projet visait à automatiser l'analyse des rapports STA pour identifier et optimiser les violations de timing. J'ai développé des scripts en NxPython pour extraire et exploiter les données de timing, et créer des diagrammes en violon pour visualiser les résultats. L'objectif était de fournir aux ingénieurs en conception et aux clients des moyens avancés pour visualiser et interpréter de manière précise les données de timing de leurs circuits, en mettant en lumière les contraintes de synchronisation les plus critiques. Dans un domaine où la performance et la fiabilité sont cruciales, une analyse minutieuse du timing est impérative pour garantir le bon fonctionnement des systèmes embarqués.</p>
+                            <p>Pour ce projet, j'ai élaboré et mis en œuvre les spécifications fonctionnelles et non fonctionnelles à partir des exigences du projet, garantissant ainsi que notre application répondait aux besoins définis. J'ai appliqué des principes d'accessibilité et d'ergonomie lors de la conception de l'interface utilisateur de notre application. En adoptant de bonnes pratiques de conception et de programmation tout au long du processus de développement, j'ai veillé à ce que notre code soit maintenable, évolutif et bien structuré. L'utilisation de patrons de conception nous a permis de développer une application cohérente et robuste, en garantissant la réutilisabilité du code et la maintenabilité du système.</p>
+                        </li>
+                        <li><p><strong>Projet 2 : Analyse de la complexité hiérarchique de différents benchs</strong></p>
+                            <p>L'objectif de ce projet était de développer un outil pour évaluer la complexité des designs FPGA en fonction de leur hiérarchie. J'ai conçu et implémenté une interface graphique en utilisant PyQt5 et Matplotlib pour permettre aux utilisateurs de visualiser et analyser les données de manière interactive. L'outil devait être capable de lire et d'analyser les données hiérarchiques à partir de fichiers JSON, de fournir des options pour sélectionner les champs et les niveaux à analyser, et d'afficher les résultats sous forme de graphiques.</p>
+                            <p>Pour ce projet, nous avons pris soin de sélectionner des structures de données complexes adaptées au problème, permettant ainsi une manipulation efficace des informations dans notre application. Nous avons utilisé des techniques algorithmiques adaptées aux problèmes complexes rencontrés, telles que la recherche opérationnelle, les méthodes arborescentes, l'optimisation globale et même des approches d'intelligence artificielle pour résoudre des défis spécifiques. En appréhendant les différents paradigmes de programmation, nous avons choisi la meilleure approche pour chaque composant de notre application, optimisant ainsi sa lisibilité et sa maintenabilité.</p>
+                        </li>
+                        <li><p><strong>Projet 3 : Analyse de cartes de congestion</strong></p>
+                            <p>Ce projet consistait à créer une interface graphique pour visualiser et comparer les cartes de congestion de routage dans un circuit. J'ai utilisé PyQt5 et Matplotlib pour développer différents modes de visualisation, permettant aux utilisateurs de mieux comprendre les problèmes de congestion. Les cartes de congestion sont des représentations graphiques qui permettent de visualiser les zones de congestion de routage dans un circuit, c'est-à-dire les endroits où la densité de routage est très élevée et où il peut y avoir des problèmes de connectivité ou de performance.</p>
+                            <p>Pour ce projet, nous avons pris soin de sélectionner des structures de données complexes adaptées au problème, permettant ainsi une manipulation efficace des informations dans notre application. Nous avons utilisé des techniques algorithmiques adaptées aux problèmes complexes rencontrés, telles que la recherche opérationnelle, les méthodes arborescentes, l'optimisation globale et même des approches d'intelligence artificielle pour résoudre des défis spécifiques. En appréhendant les différents paradigmes de programmation, nous avons choisi la meilleure approche pour chaque composant de notre application, optimisant ainsi sa lisibilité et sa maintenabilité.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features text-center section-padding" id="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="arrow">Compétences</h1>
+                <div class="features-wrapper">
+                    <p>Grâce à mon stage en alternance chez NanoXplore, j'ai pu développer les compétences suivantes :</p>
+                    <ul>
+                        <li><p><strong>Réalisation d'un développement d’application :</strong></p>
+                            <p>Lors de mon stage, j'ai participé à la conception et au développement d'une application de sauvegarde externalisée. J'ai élaboré et mis en œuvre les spécifications fonctionnelles et non fonctionnelles à partir des exigences du projet, garantissant ainsi que l'application répondait aux besoins définis. J'ai appliqué des principes d'accessibilité et d'ergonomie pour assurer une expérience utilisateur optimale. J'ai également adopté de bonnes pratiques de conception et de programmation, veillant à ce que le code soit maintenable, évolutif et bien structuré. L'utilisation de patrons de conception a permis de développer une application cohérente et robuste. J'ai adapté les solutions existantes au contexte applicatif spécifique des sauvegardes externalisées, en intégrant les fonctionnalités nécessaires et en optimisant les performances de l'application. Enfin, j'ai vérifié et validé la qualité de l'application à travers des tests approfondis, notamment des tests unitaires, d'intégration et fonctionnels, afin de m'assurer que l'application fonctionnait correctement et répondait aux attentes des utilisateurs.</p>
+                        </li>
+                        <li><p><strong>Optimisation des applications informatiques :</strong></p>
+                            <p>J'ai sélectionné des structures de données complexes adaptées au problème, permettant ainsi une manipulation efficace des informations dans l'application. J'ai utilisé des techniques algorithmiques adaptées aux problèmes complexes rencontrés, telles que la recherche opérationnelle, les méthodes arborescentes, l'optimisation globale et même des approches d'intelligence artificielle pour résoudre des défis spécifiques. En appréhendant les différents paradigmes de programmation, j'ai choisi la meilleure approche pour chaque composant de l'application, optimisant ainsi sa lisibilité et sa maintenabilité. Concernant la sécurisation des données et du code, j'ai pleinement compris les enjeux et mis en œuvre des mesures de sécurité appropriées, telles que le chiffrement des données, la gestion des accès et la prévention des attaques, assurant ainsi l'intégrité et la confidentialité des informations traitées par l'application. Enfin, j'ai également évalué l'impact environnemental et sociétal des solutions proposées, en prenant en compte des facteurs tels que la consommation de ressources et les implications sociales de l'application.</p>
+                        </li>
+                        <li><p><strong>Administration de systèmes informatiques communicants complexes : </strong></p>
+                            <p>J'ai installé, configuré et mis à disposition des infrastructures, des services et des réseaux pour l'application. J'ai sécurisé le système d'information en appliquant les normes en vigueur et les bonnes pratiques architecturales et de sécurité. J'ai offert une qualité de service optimale et assuré la continuité d'activité. J'ai également déployé des services dans une architecture réseau, en concevant et développant des applications communicantes, en utilisant des serveurs et des services réseaux virtualisés, et en sécurisant les services et données du système.</p>
+                        </li>
+                        <li><p><strong>Conduite de projet : </strong></p>
+                            <p>J'ai satisfait les besoins des utilisateurs au regard de la chaîne de valeur du client, organisé et piloté le projet informatique avec des méthodes classiques ou agiles. J'ai adopté une démarche proactive, créative et critique, respecté les règles juridiques et les normes en vigueur, communiqué efficacement avec les différents acteurs du projet, et sensibilisé à une gestion éthique, responsable, durable et interculturelle. J'ai identifié les besoins métiers des clients et des utilisateurs, mis en place les outils de gestion de projet, identifié les acteurs et les différentes phases d’un cycle de développement, et appliqué une démarche de suivi de projet en fonction des besoins métiers des clients et des utilisateurs.</p>
+                        </li>
+                        <li><p><strong>Travail en équipe informatique :</strong></p>
+                            <p>J'ai acquis, développé et exploité les aptitudes nécessaires pour travailler efficacement dans une équipe informatique. J'ai inscrit ma démarche au sein d’une équipe pluridisciplinaire, accompagné la mise en œuvre des évolutions informatiques, veillé au respect des contraintes juridiques, et développé une communication efficace et collaborative. J'ai compris la diversité, la structure et la dimension de l’informatique dans une organisation, appliqué une démarche pour intégrer une équipe informatique au sein d’une organisation, mobilisé les compétences interpersonnelles pour travailler dans une équipe informatique, et rendu compte de mon activité professionnelle.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="dark-bg text-center section-padding contact-wrap" id="contact">
+    <a href="#top" class="up-btn"><i class="fa fa-chevron-up"></i></a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="arrow">Contact</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="social-buttons">
+                    <li><a href="https://gitlabinfo.iutmontp.univ-montp2.fr/renautj">
+                        <img src="../img/git.png" class="social-btn">
+                    </a></li>
+                    <li><a href="fichier/CV_JadeRenaut.pdf" download="CV_JadeRenaut.pdf">
+                        <img src="../img/cv.png" alt="CV" class="social-btn">
+                    </a></li>
+                    <li><a href="https://fr.linkedin.com/in/jade-renaut-04b445264">
+                        <img src="../img/linkedin_1.png" class="social-btn">
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="../js/waypoints.min.js"></script>
+<script src="../js/scripts.js"></script>
+</body>
+</html>
