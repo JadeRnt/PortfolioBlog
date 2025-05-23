@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🛠 My Projects</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/scripts.js" defer></script>
+</head>
+<body>
+
+  <header>
+    <nav>
+<div id="user-display" style="position:absolute; right:25px; top:23px; font-family:monospace;"></div><div id="user-display" style="position:absolute; right:25px; top:23px; font-family:monospace;"></div>
+      <a href="index.html">🧭 About</a>
+      <a href="drawings.html">🎨 Drawings</a>
+      <a href="blog.html">📝 Blog</a>
+      <a href="projects.html">🛠 Projects</a>
+      <a href="login.html">🔐 Login</a>
+<span id="user-display" style="float:right; font-family:monospace;"></span>
+    </nav>
+  </header>
+
+  <h1>🛠 My Projects</h1>
+
+  <div class="item" onclick="event.stopPropagation(); openItem('project1')">
+    <p>8-bit Audio Player</p>
+    <button onclick="JayApp.like('project1')"><span class="like-count" data-item="project1">❤️</span></button>
+    <button onclick="JayApp.comment('project1', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-project1"></div>
+  </div>
+
+  <div class="item" onclick="event.stopPropagation(); openItem('project2')">
+    <p>Terminal Emulator</p>
+    <button onclick="JayApp.like('project2')"><span class="like-count" data-item="project2">❤️</span></button>
+    <button onclick="JayApp.comment('project2', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-project2"></div>
+  </div>
+
+  <div class="item" onclick="event.stopPropagation(); openItem('project3')">
+    <p>Retro Blog Theme</p>
+    <button onclick="JayApp.like('project3')"><span class="like-count" data-item="project3">❤️</span></button>
+    <button onclick="JayApp.comment('project3', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-project3"></div>
+  </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    try {
+      const raw = localStorage.getItem("currentUserData");
+      if (raw && raw.startsWith("{")) {
+        const session = JSON.parse(raw);
+        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
+          const username = session.user.username;
+          const container = document.getElementById("user-display");
+          if (container) container.textContent = "👤 " + username;
+        }
+      }
+    } catch (e) {}
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("user-display");
+    try {
+      const raw = localStorage.getItem("currentUserData");
+      if (raw && raw.trim().startsWith("{")) {
+        const session = JSON.parse(raw);
+        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
+          const username = session.user.username;
+          if (container) {
+            container.innerHTML = `👤 ${username} <button onclick="JayApp.logout(); location.reload();">Logout</button>`;
+          }
+          if (typeof JayApp !== 'undefined') {
+            JayApp.displayAllComments?.();
+            JayApp.displayAllLikes?.();
+          }
+        }
+      }
+    } catch (e) {
+      if (container) container.textContent = "";
+    }
+  });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", e => e.stopPropagation());
+  });
+});
+</script>
+
+</body>
+</html>

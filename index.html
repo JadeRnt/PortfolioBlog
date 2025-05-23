@@ -1,188 +1,154 @@
+
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Portfolio de Jade Renaut</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Jay's Retro Portfolio</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/scripts.js" defer></script>
 </head>
 <body>
-<nav style="position: sticky; top: 0; z-index: 100;">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2">
-                <nav class="pull">
-                    <ul class="top-nav">
-                        <li><a href="#presentation">Présentation<span class="indicator"><i
-                                class="fa fa-angle-right"></i></span></a></li>
-                        <li><a href="#features">Projets<span class="indicator"><i
-                                class="fa fa-angle-right"></i></span></a></li>
-                        <li><a href="#contact">Contact<span class="indicator"><i
-                                class="fa fa-angle-right"></i></span></a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-</nav>
-<section class="hero" id="hero">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-right navicon">
-                <a id="nav-toggle" class="nav_slide_button" href="#"><span></span></a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 text-center inner">
-                <h1 class="animated fadeInDown">Portfolio de Jade Renaut</span></h1>
-                <p class="animated fadeInUp delay-05s">Etudiante en troisième année de BUT Informatique</en></p>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="intro text-center section-padding" id="presentation">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 wp1">
-                <h1 class="arrow">Présentation de moi</h1>
-                <p>Bonjour à tous,</p>
-                <p>Je suis Jade Renaut, actuellement en troisième année de BUT informatique, spécialisée dans le parcours
-                    "Déploiement d'applications communicantes et sécurisées". Aujourd'hui, je vais partager un peu de
-                    mon parcours et de ma vision du monde numérique avec vous.</p>
-                <p>Depuis mon enfance, la technologie a toujours été une part essentielle de ma vie. Cette curiosité
-                    innée a été le point de départ de ma passion pour ce domaine.</p>
-                <p>J'ai poursuivi mes études au lycée Jean Baptiste Dumas à Alès, avec un bac général en mathématiques
-                    et en numérique et sciences du numérique, laissant derrière moi la physique-chimie en terminale pour
-                    me concentrer sur ma passion. La cybersécurité m'a particulièrement intriguée, et je souhaite
-                    contribuer à la protection des données et des systèmes en ligne, un enjeu crucial de notre
-                    époque.</p>
-                <p>Je prévois poursuivre mes études en intégrant une école d'ingénieur ou un master, car l'apprentissage
-                    continu est essentiel dans ce secteur en constante évolution. De
-                    plus, je prévois de continuer dans une alternance l'année prochaine afin d'acquérir une précieuse
-                    expérience pratique tout en renforcant mes compétences au sein de la formation du BUT en vue d'une
-                    carrière réussie.</p>
-                <p>Je suis une personne calme, ouverte d'esprit et imaginative, qui attache une grande importance à
-                    l'empathie et à l'authenticité dans les relations. Je suis profondément sensible et empathique, ce
-                    qui me pousse à vouloir comprendre les autres et à les aider dans la mesure du possible. Ma
-                    créativité et mon idéalisme me poussent à chercher un but dans la vie, souvent orienté vers
-                    l'amélioration du monde qui m'entoure. Malgré ma tendance à la réflexion et à la rêverie, je
-                    m'efforce de transformer mes idées en actions concrètes pour réaliser mon plein potentiel et
-                    apporter une contribution positive à mon environnement.</p>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="features text-center section-padding" class="features">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="arrow">Projets académiques</h1>
-                <div class="features-wrapper">
-                    <div class="col-md-4 wp2"
-                         onclick="window.location='https://jadernt.github.io/Portfolio/projet/ecommerce.html';"
-                         style="cursor: pointer; padding: 50px;">
-                        <div>
-                            <img src="img/foodSite.png" class="icon">
-                        </div>
-                        <h2>Site de ecommerce (vente de nourriture)</h2>
-                        <p>Projet, Semestre 3</p>
-                    </div>
-                    <div class="col-md-4 wp2 delay-05s"
-                         onclick="window.location='https://jadernt.github.io/Portfolio/projet/enchere.html';"
-                         style="cursor: pointer; padding: 50px;">
-                        <div>
-                            <img src="img/enchere.png" class="icon">
-                        </div>
-                        <h2>Application d'enchères de Vickrey</h2>
-                        <p>SAE, Semestre 3</p>
-                    </div>
-                    <div class="col-md-4 wp2 delay-1s"
-                         onclick="window.location='https://jadernt.github.io/Portfolio/projet/neko.html';"
-                         style="cursor: pointer; padding: 50px;">
-                        <div>
-                            <img src="img/neko.png" class="icon">
-                        </div>
-                        <h2>Ai No Neko</h2>
-                        <p>Code Game Jam, Janvier 2024</p>
-                    </div>
-                    <div class="col-md-12 wp2 delay-05s"
-                         onclick="window.location='https://jadernt.github.io/Portfolio/projet/sauvegarde.html';"
-                         style="cursor: pointer; padding: 50px;">
-                        <div>
-                            <img src="img/sauvegarde.png" class="icon">
-                        </div>
-                        <h2>Application de sauvegarde</h2>
-                        <p>Projet, Semestre 5</p>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="features text-center section-padding" class="features">
-<div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="arrow">Projets professionnels</h1>
-                <div class="features-wrapper">
-                    <div class="col-md-4 wp2"
-                         onclick="window.location='https://jadernt.github.io/Portfolio/projet/stage.html';"
-                         style="cursor: pointer; padding: 50px;">
-                        <div>
-                            <img src="img/NX.png" class="icon">
-                        </div>
-                        <h2>Stage Informatique</h2>
-                        <p>Avril 2024 - Juillet 2024</p>
-                    </div>
-                    <div class="col-md-4 wp2 delay-05s"
-                         onclick="window.location='https://jadernt.github.io/Portfolio/projet/alternance.html';"
-                         style="cursor: pointer; padding: 50px;">
-                        <div>
-                            <img src="img/ZF.png" class="icon">
-                        </div>
-                        <h2>Alternance informatique</h2>
-                        <p>Septembre 2024 - Aujourd'hui</p>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-</section>
-<section class="dark-bg text-center section-padding contact-wrap" id="contact">
-    <a href="#top" class="up-btn"><i class="fa fa-chevron-up"></i></a>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="arrow">Contact</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="social-buttons">
-                    <li><a href="https://gitlabinfo.iutmontp.univ-montp2.fr/renautj">
-                        <img src="img/git.png" class="social-btn">
-                    </a></li>
-                    <li><a href="fichier/CV_JadeRenaut.pdf" download="CV_JadeRenaut.pdf">
-                        <img src="img/cv.png" alt="CV" class="social-btn">
-                    </a></li>
-                    <li><a href="https://fr.linkedin.com/in/jade-renaut-04b445264">
-                        <img src="img/linkedin_1.png" class="social-btn">
-                    </a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-<script src="js/waypoints.min.js"></script>
-<script src="js/scripts.js"></script>
+<header>
+  <nav>
+<div id="user-display" style="position:absolute; right:25px; top:23px; font-family:monospace;"></div><div id="user-display" style="position:absolute; right:25px; top:23px; font-family:monospace;"></div>
+    <a href="index.html">🧭 About</a>
+    <a href="drawings.html">🎨 Drawings</a>
+    <a href="blog.html">📝 Blog</a>
+    <a href="projects.html">🛠 Projects</a>
+    <a href="login.html">🔐 Login</a>
+<span id="user-display" style="float:right; font-family:monospace;"></span>
+  </nav>
+</header>
+
+  <section id="about">
+    <h1><span class="icon">💾</span>Hi, I'm Jay</h1>
+    <p>They/Them - French computer science student.</p>
+  </section>
+
+  <section id="drawings" onclick="location.href='drawings.html'">
+    <h2>🎨 Drawings</h2>
+    <div class="item" onclick="event.stopPropagation(); location.href='drawing1.html'">
+      <p>Pixel Cat 🐱</p>
+      <button onclick="JayApp.like('drawing1')"><span class="like-count" data-item="drawing1"></span></button>
+      <button onclick="JayApp.comment('drawing1', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-drawing1" class="comments-box limited-comments"></div>
+    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+    <div class="item" onclick="event.stopPropagation(); location.href='drawing2.html'">
+      <p>Flying Zeppelin 🛩</p>
+      <button onclick="JayApp.like('drawing2')"><span class="like-count" data-item="drawing2"></span></button>
+      <button onclick="JayApp.comment('drawing2', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-drawing2" class="comments-box limited-comments"></div>
+    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+    <div class="item" onclick="event.stopPropagation(); location.href='drawing3.html'">
+      <p>Robot Knight 🤖</p>
+      <button onclick="JayApp.like('drawing3')"><span class="like-count" data-item="drawing3"></span></button>
+      <button onclick="JayApp.comment('drawing3', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-drawing3" class="comments-box limited-comments"></div>
+    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+  </section>
+
+  <section id="blog" onclick="location.href='blog.html'">
+    <h2>📝 Blog</h2>
+    <div class="item" onclick="event.stopPropagation(); location.href='blog1.html'">
+      <p>Making pixel art</p>
+      <button onclick="JayApp.like('blog1')"><span class="like-count" data-item="blog1"></span></button>
+      <button onclick="JayApp.comment('blog1', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-blog1" class="comments-box limited-comments"></div>
+    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+    <div class="item" onclick="event.stopPropagation(); location.href='blog2.html'">
+      <p>Building games in JS</p>
+      <button onclick="JayApp.like('blog2')"><span class="like-count" data-item="blog2"></span></button>
+
+      <button onclick="JayApp.comment('blog2', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-blog2" class="comments-box limited-comments"></div>
+    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+    <div class="item" onclick="event.stopPropagation(); location.href='blog3.html'">
+      <p>Why retro matters</p>
+      <button onclick="JayApp.like('blog3')"><span class="like-count" data-item="blog3"></span></button>
+      <button onclick="JayApp.comment('blog3', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-blog3" class="comments-box limited-comments"></div>
+    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+  </section>
+
+  <section id="projects" onclick="location.href='projects.html'">
+    <h2>🛠 Projects</h2>
+    <div class="item" onclick="event.stopPropagation(); location.href='project1.html'">
+      <p>8-bit Audio Player</p>
+      <button onclick="JayApp.like('project1')"><span class="like-count" data-item="project1"></span></button>
+      <button onclick="JayApp.comment('project1', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-project1" class="comments-box limited-comments"></div>
+    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+    <div class="item" onclick="event.stopPropagation(); location.href='project2.html'">
+      <p>Terminal Emulator</p>
+      <button onclick="JayApp.like('project2')"><span class="like-count" data-item="project2"></span></button>
+      <button onclick="JayApp.comment('project2', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-project2" class="comments-box limited-comments"></div>
+    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+    <div class="item" onclick="event.stopPropagation(); location.href='project3.html'">
+      <p>Retro Blog Theme</p>
+      <button onclick="JayApp.like('project3')"><span class="like-count" data-item="project3"></span></button>
+      <button onclick="JayApp.comment('project3', prompt('Comment:'))">💬</button>
+    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+  </section>
+
+  <div id="login" style="display:none;">
+    <h2>🔐 Login</h2>
+    <input id="login-username" placeholder="Username"><br>
+    <input id="login-password" type="password" placeholder="Password"><br>
+    <button onclick="JayApp.login(document.getElementById('login-username').value, document.getElementById('login-password').value)">Login</button>
+    <button onclick="JayApp.signUp(document.getElementById('login-username').value, document.getElementById('login-password').value)">Sign Up</button>
+  <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    try {
+      const raw = localStorage.getItem("currentUserData");
+      if (raw && raw.startsWith("{")) {
+        const session = JSON.parse(raw);
+        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
+          const username = session.user.username;
+          const container = document.getElementById("user-display");
+          if (container) container.textContent = "👤 " + username;
+        }
+      }
+    } catch (e) {}
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("user-display");
+    try {
+      const raw = localStorage.getItem("currentUserData");
+      if (raw && raw.trim().startsWith("{")) {
+        const session = JSON.parse(raw);
+        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
+          const username = session.user.username;
+          if (container) {
+            container.innerHTML = `👤 ${username} <button onclick="JayApp.logout(); location.reload();">Logout</button>`;
+          }
+          if (typeof JayApp !== 'undefined') {
+            JayApp.displayAllComments?.();
+            JayApp.displayAllLikes?.();
+          }
+        }
+      }
+    } catch (e) {
+      if (container) container.textContent = "";
+    }
+  });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", e => e.stopPropagation());
+  });
+});
+</script>
 
 </body>
 </html>
-
-
