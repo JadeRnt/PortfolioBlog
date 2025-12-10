@@ -65,7 +65,7 @@ body {
   width: 90%;
   max-width: 720px;
   margin: 0 auto;
-  padding-top: var(--header-space-desktop); /* space so content starts below fixed header */
+  padding-top: var(--header-space-desktop);
   padding-bottom: 50px;
   z-index: 10;
   position: relative;
@@ -337,6 +337,56 @@ button:hover {
   button { font-size: clamp(18px, 5.6vw, 24px); padding: 12px 16px; }
   .item, .comments-box { font-size: clamp(18px, 5.8vw, 24px); }
   .artwork-caption { font-size: clamp(16px, 4.8vw, 20px); }
+}
+
+/* ---------------------------------------------------------------------- */
+/* ORIENTATION-SPECIFIC ADJUSTMENTS */
+/* ---------------------------------------------------------------------- */
+
+/* Portrait mode (phones vertical) — keep text large and readable */
+@media (max-width: 900px) and (orientation: portrait) {
+  body { font-size: clamp(16px, 5.2vw, 24px); }
+  h1 { font-size: clamp(28px, 8.8vw, 48px); }
+  h2 { font-size: clamp(20px, 5.8vw, 32px); }
+  nav a { font-size: clamp(16px, 5.6vw, 26px); }
+  button { font-size: clamp(16px, 5.2vw, 24px); }
+  .item, .comments-box { font-size: clamp(16px, 5.4vw, 24px); }
+}
+
+/* Landscape mode (phones horizontal) — significantly reduce text size to prevent overflow */
+@media (max-width: 900px) and (orientation: landscape) {
+  body { font-size: clamp(10px, 2.0vw, 13px); }
+  h1 { font-size: clamp(14px, 3.2vw, 20px); }
+  h2 { font-size: clamp(12px, 2.6vw, 18px); }
+  nav a { font-size: clamp(10px, 2.0vw, 14px); }
+  #user-display { font-size: clamp(10px, 1.8vw, 13px); }
+  button { font-size: clamp(10px, 2.0vw, 13px); padding: 8px 10px; }
+  .item, .comments-box { font-size: clamp(10px, 2.0vw, 13px); }
+  .artwork-caption { font-size: clamp(9px, 1.6vw, 12px); }
+
+  section { margin-top: 12px; padding: 14px; }
+  
+  nav { 
+    padding: 8px 12px; 
+    gap: 8px; 
+  }
+
+  nav a { padding: 4px 6px; }
+  
+  :root {
+    --header-space-desktop: 80px;
+    --header-space-tablet: 70px;
+    --header-space-mobile: 60px;
+  }
+
+  .container {
+    padding-top: var(--header-space-mobile);
+    max-width: 100%;
+  }
+
+  body > section:first-of-type {
+    margin-top: var(--header-space-mobile);
+  }
 }
 
 /* Additional fluid breakpoints to keep sizes proportional as viewport narrows */
