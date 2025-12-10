@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Jay's Retro Portfolio</title>
+  <title>Portfolio</title>
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/scripts.js" defer></script>
 </head>
@@ -17,7 +17,6 @@
     <a href="drawings.html">🎨 Drawings</a>
     <a href="blog.html">📝 Blog</a>
     <a href="projects.html">🛠 Projects</a>
-    <a href="login.html">🔐 Login</a>
 <span id="user-display" style="float:right; font-family:monospace;"></span>
   </nav>
 </header>
@@ -30,67 +29,40 @@
   <section id="drawings" onclick="location.href='drawings.html'">
     <h2>🎨 Drawings</h2>
     <div class="item" onclick="event.stopPropagation(); location.href='drawing1.html'">
-      <p>Pixel Cat 🐱</p>
-      <button onclick="JayApp.like('drawing1')"><span class="like-count" data-item="drawing1"></span></button>
-      <button onclick="JayApp.comment('drawing1', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-drawing1" class="comments-box limited-comments"></div>
-    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+      <p>Logo SE Polytech</p>
+    </div>
     <div class="item" onclick="event.stopPropagation(); location.href='drawing2.html'">
-      <p>Flying Zeppelin 🛩</p>
-      <button onclick="JayApp.like('drawing2')"><span class="like-count" data-item="drawing2"></span></button>
-      <button onclick="JayApp.comment('drawing2', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-drawing2" class="comments-box limited-comments"></div>
-    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+      <p>Second OC</p>  
+    </div>
     <div class="item" onclick="event.stopPropagation(); location.href='drawing3.html'">
-      <p>Robot Knight 🤖</p>
-      <button onclick="JayApp.like('drawing3')"><span class="like-count" data-item="drawing3"></span></button>
-      <button onclick="JayApp.comment('drawing3', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-drawing3" class="comments-box limited-comments"></div>
-    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+      <p>First OC</p>
+    </div>
   </section>
 
   <section id="blog" onclick="location.href='blog.html'">
     <h2>📝 Blog</h2>
     <div class="item" onclick="event.stopPropagation(); location.href='blog1.html'">
       <p>Making pixel art</p>
-      <button onclick="JayApp.like('blog1')"><span class="like-count" data-item="blog1"></span></button>
-      <button onclick="JayApp.comment('blog1', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-blog1" class="comments-box limited-comments"></div>
-    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+    </div>
     <div class="item" onclick="event.stopPropagation(); location.href='blog2.html'">
       <p>Building games in JS</p>
-      <button onclick="JayApp.like('blog2')"><span class="like-count" data-item="blog2"></span></button>
-
-      <button onclick="JayApp.comment('blog2', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-blog2" class="comments-box limited-comments"></div>
-    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+    </div>
     <div class="item" onclick="event.stopPropagation(); location.href='blog3.html'">
       <p>Why retro matters</p>
-      <button onclick="JayApp.like('blog3')"><span class="like-count" data-item="blog3"></span></button>
-      <button onclick="JayApp.comment('blog3', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-blog3" class="comments-box limited-comments"></div>
-    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
-  </section>
+    </div>
+    </section>
 
   <section id="projects" onclick="location.href='projects.html'">
     <h2>🛠 Projects</h2>
     <div class="item" onclick="event.stopPropagation(); location.href='project1.html'">
       <p>8-bit Audio Player</p>
-      <button onclick="JayApp.like('project1')"><span class="like-count" data-item="project1"></span></button>
-      <button onclick="JayApp.comment('project1', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-project1" class="comments-box limited-comments"></div>
-    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+    </div>
     <div class="item" onclick="event.stopPropagation(); location.href='project2.html'">
       <p>Terminal Emulator</p>
-      <button onclick="JayApp.like('project2')"><span class="like-count" data-item="project2"></span></button>
-      <button onclick="JayApp.comment('project2', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-project2" class="comments-box limited-comments"></div>
-    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+    </div>
     <div class="item" onclick="event.stopPropagation(); location.href='project3.html'">
       <p>Retro Blog Theme</p>
-      <button onclick="JayApp.like('project3')"><span class="like-count" data-item="project3"></span></button>
-      <button onclick="JayApp.comment('project3', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
+    </div>
   </section>
 
   <div id="login" style="display:none;">

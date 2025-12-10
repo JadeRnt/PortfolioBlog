@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>🎨 My Drawings</title>
+  <title>Portfolio</title>
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/scripts.js" defer></script>
 </head>
@@ -20,77 +20,21 @@
     </nav>
   </header>
 
+  <section>
   <h1>🎨 My Drawings</h1>
 
-  <div class="item" onclick="event.stopPropagation(); openItem('drawing1')">
-    <p>Pixel Cat 🐱</p>
-    <button onclick="JayApp.like('drawing1')"><span class="like-count" data-item="drawing1">❤️</span></button>
-    <button onclick="JayApp.comment('drawing1', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-drawing1"></div>
+  <div class="item" onclick="event.stopPropagation(); location.href='drawing1.html'">    
+  <p>Logo SE Polytech</p>
   </div>
 
-  <div class="item" onclick="event.stopPropagation(); openItem('drawing2')">
-    <p>Flying Zeppelin 🛩</p>
-    <button onclick="JayApp.like('drawing2')"><span class="like-count" data-item="drawing2">❤️</span></button>
-    <button onclick="JayApp.comment('drawing2', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-drawing2"></div>
+  <div class="item" onclick="event.stopPropagation(); location.href='drawing2.html'">
+    <p>Second OC</p>
   </div>
 
-  <div class="item" onclick="event.stopPropagation(); openItem('drawing3')">
-    <p>Robot Knight 🤖</p>
-    <button onclick="JayApp.like('drawing3')"><span class="like-count" data-item="drawing3">❤️</span></button>
-    <button onclick="JayApp.comment('drawing3', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-drawing3"></div>
+  <div class="item" onclick="event.stopPropagation(); location.href='drawing3.html'">
+    <p>First OC</p>
   </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    try {
-      const raw = localStorage.getItem("currentUserData");
-      if (raw && raw.startsWith("{")) {
-        const session = JSON.parse(raw);
-        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
-          const username = session.user.username;
-          const container = document.getElementById("user-display");
-          if (container) container.textContent = "👤 " + username;
-        }
-      }
-    } catch (e) {}
-  });
-</script>
-
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("user-display");
-    try {
-      const raw = localStorage.getItem("currentUserData");
-      if (raw && raw.trim().startsWith("{")) {
-        const session = JSON.parse(raw);
-        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
-          const username = session.user.username;
-          if (container) {
-            container.innerHTML = `👤 ${username} <button onclick="JayApp.logout(); location.reload();">Logout</button>`;
-          }
-          if (typeof JayApp !== 'undefined') {
-            JayApp.displayAllComments?.();
-            JayApp.displayAllLikes?.();
-          }
-        }
-      }
-    } catch (e) {
-      if (container) container.textContent = "";
-    }
-  });
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", e => e.stopPropagation());
-  });
-});
-</script>
+</section>
 
 </body>
 </html>

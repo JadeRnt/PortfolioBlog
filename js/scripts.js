@@ -1,331 +1,223 @@
-
-function showNotification(message) {
-  let bar = document.getElementById("notif-bar");
-  if (!bar) {
-    bar = document.createElement("div");
-    bar.id = "notif-bar";
-    bar.style.position = "fixed";
-    bar.style.top = "55px";
-    bar.style.left = "calc(50% - 200px)";
-    bar.style.width = "400px";
-    bar.style.padding = "10px";
-    bar.style.backgroundColor = "#333";
-    bar.style.color = "white";
-    bar.style.textAlign = "center";
-    bar.style.zIndex = "9999";
-    bar.style.fontFamily = "monospace";
-    bar.style.border = "2px solid gold";
-    bar.style.borderRadius = "8px";
-    bar.style.boxShadow = "0 4px 8px rgba(0,0,0,0.4)";
-    document.body.appendChild(bar);
-  }
-  bar.textContent = message;
-  setTimeout(() => { if (bar) bar.remove(); }, 4000);
-}
-
-
-function showNotification_OLD(message) {
-  let bar = document.getElementById("notif-bar");
-  if (!bar) {
-    bar = document.createElement("div");
-    bar.id = "notif-bar";
-    bar.style.position = "fixed";
-    bar.style.top = "55px"; // sous le header
-    bar.style.left = "0";
-    bar.style.right = "0";
-    bar.style.padding = "10px";
-    bar.style.backgroundColor = "#333";
-    bar.style.color = "white";
-    bar.style.textAlign = "center";
-    bar.style.zIndex = "9999";
-    bar.style.fontFamily = "monospace";
-    bar.style.borderBottom = "2px solid gold";
-    bar.style.boxShadow = "0 4px 8px rgba(0,0,0,0.4)";
-    document.body.prepend(bar);
-  }
-  bar.textContent = message;
-  setTimeout(() => { if (bar) bar.remove(); }, 4000);
-}
-
-
-function showNotification_OLD_OLD(message) {
-  let bar = document.getElementById("notif-bar");
-  if (!bar) {
-    bar = document.createElement("div");
-    bar.id = "notif-bar";
-    bar.style.position = "fixed";
-    bar.style.top = "0";
-    bar.style.left = "0";
-    bar.style.right = "0";
-    bar.style.padding = "10px";
-    bar.style.backgroundColor = "#222";
-    bar.style.color = "white";
-    bar.style.textAlign = "center";
-    bar.style.zIndex = "9999";
-    bar.style.fontFamily = "monospace";
-    document.body.prepend(bar);
-  }
-  bar.textContent = message;
-}
-
-
-console.log("JayApp loaded");
-
-document.addEventListener("DOMContentLoaded", () => {
-  const storage = {
-    users: JSON.parse(localStorage.getItem("users") || "[]"),
-    comments: JSON.parse(localStorage.getItem("comments") || "[]"),
-    likes: JSON.parse(localStorage.getItem("likes") || "[]")
-  };
-
-  let currentUser = null;
-  const raw = localStorage.getItem("currentUserData");
-  if (raw && raw.trim().startsWith("{")) {
-    try {
-      const session = JSON.parse(raw);
-      if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
-        currentUser = session.user;
-      }
-    } catch (e) {
-      localStorage.removeItem("currentUserData");
-    }
-  }
-
-  function save() {
-    localStorage.setItem("users", JSON.stringify(storage.users));
-    localStorage.setItem("comments", JSON.stringify(storage.comments));
-    localStorage.setItem("likes", JSON.stringify(storage.likes));
-  }
-
-  window.JayApp = {
-    currentUser,
-
-    signUp(username, password) {
-      if (username.length < 4 || password.length < 4) {
-        showNotification("⚠️ Username and password must be at least 4 characters.");
-        return;
-      }
-      if (storage.users.find(u => u.username === username)) {
-        showNotification("⚠️ Username already exists!");
-        return;
-      }
-      const newUser = { username, password };
-      storage.users.push(newUser);
-      save();
-      this.currentUser = newUser;
-      localStorage.setItem("currentUserData", JSON.stringify({ user: newUser, timestamp: Date.now() }));
-      showNotification("✅ Account created and logged in!"); setTimeout(() => window.location.href = 'index.html', 1000);
-      this.displayAllComments();
-      this.displayAllLikes();
-    },
-
-    login(username, password) {
-      const user = storage.users.find(u => u.username === username && u.password === password);
-      if (user) {
-        this.currentUser = user;
-        localStorage.setItem("currentUserData", JSON.stringify({ user, timestamp: Date.now() }));
-        showNotification("✅ Logged in as " + username); setTimeout(() => window.location.href = 'index.html', 1000);
-        this.displayAllComments();
-        this.displayAllLikes();
-      } else {
-        showNotification("❌ Incorrect username or password.");
-      }
-    },
-
-    logout() {
-      this.currentUser = null;
-      localStorage.removeItem("currentUserData");
-      showNotification("🔓 You have been logged out.");
-    },
-
-    like(itemId) {
-      if (!this.currentUser) return showNotification("🔒 You must login to like.");
-      const index = storage.likes.findIndex(l => l.username === this.currentUser.username && l.itemId === itemId);
-      if (index >= 0) {
-        storage.likes.splice(index, 1);
-      } else {
-        storage.likes.push({ username: this.currentUser.username, itemId });
-      }
-      save();
-      this.displayAllLikes();
-    },
-
-    comment(itemId, text) {
-      if (!this.currentUser) return showNotification("🔒 You must login to comment.");
+// Créer des nuages animés avec apparition aléatoire continue
+function createClouds() {
+  function spawnCloud() {
+    const cloud = document.createElement('div');
+    cloud.className = 'cloud';
+    
+    // Taille aléatoire (entre 80 et 150px de largeur)
+    const width = Math.floor(Math.random() * 70) + 80;
+    const height = width * 0.6;
+    
+    // Position verticale aléatoire (entre 0% et 100% de la hauteur de la fenêtre)
+    const top = Math.floor(Math.random() * 100);
+    
+    // Durée d'animation aléatoire (entre 20 et 40 secondes - plus rapide)
+    const duration = Math.floor(Math.random() * 20) + 20;
+    
+    cloud.style.position = 'fixed';
+    cloud.style.top = top + '%';
+    cloud.style.left = '-250px';
+    cloud.style.width = width + 'px';
+    cloud.style.height = height + 'px';
+    cloud.style.pointerEvents = 'none';
+    cloud.style.zIndex = '-5';
+    cloud.style.background = '#ffffff';
+    cloud.style.borderRadius = '50%';
+    
+    // Choisir une forme de nuage aléatoire parmi 5 formes différentes
+    const cloudType = Math.floor(Math.random() * 5);
+    let shadows;
+    
+    switch(cloudType) {
+      case 0: // Nuage compact et rond
+        shadows = [
+          `#ffffff ${width * 0.45}px ${height * -0.2}px 0 ${height * 0.12}px`,
+          `#ffffff ${width * 0.65}px ${height * 0.08}px 0 ${height * 0.18}px`,
+          `#ffffff ${width * 0.25}px ${height * -0.12}px 0 ${height * 0.08}px`,
+          `#ffffff ${width * 0.55}px ${height * 0.18}px 0 ${height * 0.08}px`
+        ];
+        break;
       
-      storage.comments.push({
-        username: this.currentUser.username,
-        itemId,
-        text,
-        date: new Date().toLocaleString()
-      });
-      save();
-      this.displayAllComments();
-    },
-
-    editComment(itemId) {
-      if (!this.currentUser) return alert("Login first.");
-      const i = storage.comments.findIndex(
-        c => c.itemId === itemId && c.username === this.currentUser.username
-      );
-      if (i === -1) return alert("You have no comment to edit.");
+      case 1: // Nuage allongé
+        shadows = [
+          `#ffffff ${width * 0.35}px ${height * -0.1}px 0 ${height * 0.05}px`,
+          `#ffffff ${width * 0.55}px ${height * 0}px 0 ${height * 0.1}px`,
+          `#ffffff ${width * 0.75}px ${height * -0.08}px 0 ${height * 0.06}px`,
+          `#ffffff ${width * 0.15}px ${height * 0.05}px 0 ${height * 0.04}px`,
+          `#ffffff ${width * 0.95}px ${height * 0.03}px 0 ${height * 0.05}px`
+        ];
+        break;
       
-
-// prompt removed: edit handled inline  // fallback in case JS isn't updated
-
-
-      if (newText) {
-        storage.comments[i].text = newText;
-        storage.comments[i].date = new Date().toLocaleString();
-        save();
-        this.displayAllComments();
-      }
-    },
-
-    deleteComment(itemId) {
-      if (!this.currentUser) return alert("Login first.");
-      const i = storage.comments.findIndex(
-        c => c.itemId === itemId && c.username === this.currentUser.username
-      );
-      if (i === -1) return alert("No comment to delete.");
-      if (confirm("Are you sure?")) {
-        storage.comments.splice(i, 1);
-        save();
-        this.displayAllComments();
-      }
-    },
-
-    displayAllComments() {
-      document.querySelectorAll(".comments-box").forEach(box => box.innerHTML = "");
-      storage.comments.forEach(c => {
-        const box = document.querySelector("#comments-" + c.itemId);
-        if (box) {
-          const p = document.createElement("p");
-          
-
-p.innerHTML = `<strong>[${c.username}]</strong> <span class="comment-text" id="text-${c.itemId}">${c.text}</span> <em>(${c.date})</em>`;
-
-
-          
-box.appendChild(p);
-
-if (this.currentUser && !document.getElementById("comment-box-" + c.itemId)) {
-  const container = document.createElement("div");
-  container.id = "comment-box-" + c.itemId;
-  container.style.marginTop = "8px";
-
-  const toggleBtn = document.createElement("button");
-  toggleBtn.textContent = "➕ Add Comment";
-  toggleBtn.onclick = () => {
-    input.style.display = input.style.display === "block" ? "none" : "block";
-    submitBtn.style.display = input.style.display;
-  };
-
-  const input = document.createElement("input");
-  input.type = "text";
-  input.placeholder = "Write your comment...";
-  input.style.display = "none";
-  input.style.marginTop = "5px";
-  input.id = "comment-input-" + c.itemId;
-
-  const submitBtn = document.createElement("button");
-  submitBtn.textContent = "Submit";
-  submitBtn.style.marginLeft = "5px";
-  submitBtn.style.display = "none";
-  submitBtn.onclick = () => JayApp.comment(c.itemId);
-
-  container.appendChild(toggleBtn);
-  container.appendChild(input);
-  container.appendChild(submitBtn);
-  box.appendChild(container);
-}
-
-if (this.currentUser && c.username === this.currentUser.username && !document.getElementById("comment-input-" + c.itemId)) {
-  const input = document.createElement("input");
-  input.id = "comment-input-" + c.itemId;
-  input.placeholder = "Write a comment...";
-  input.style.display = "block";
-  input.style.marginTop = "5px";
-  input.onkeydown = e => {
-    if (e.key === "Enter") {
-      JayApp.comment(c.itemId);
+      case 2: // Nuage gonflé avec beaucoup de boules
+        shadows = [
+          `#ffffff ${width * 0.3}px ${height * -0.25}px 0 ${height * 0.15}px`,
+          `#ffffff ${width * 0.5}px ${height * -0.18}px 0 ${height * 0.2}px`,
+          `#ffffff ${width * 0.7}px ${height * -0.22}px 0 ${height * 0.12}px`,
+          `#ffffff ${width * 0.4}px ${height * 0.1}px 0 ${height * 0.1}px`,
+          `#ffffff ${width * 0.6}px ${height * 0.15}px 0 ${height * 0.08}px`,
+          `#ffffff ${width * 0.2}px ${height * 0}px 0 ${height * 0.06}px`
+        ];
+        break;
+      
+      case 3: // Nuage petit et mignon
+        shadows = [
+          `#ffffff ${width * 0.4}px ${height * -0.15}px 0 ${height * 0.1}px`,
+          `#ffffff ${width * 0.6}px ${height * 0.05}px 0 ${height * 0.12}px`,
+          `#ffffff ${width * 0.2}px ${height * -0.05}px 0 ${height * 0.05}px`
+        ];
+        break;
+      
+      case 4: // Nuage asymétrique
+        shadows = [
+          `#ffffff ${width * 0.5}px ${height * -0.3}px 0 ${height * 0.2}px`,
+          `#ffffff ${width * 0.7}px ${height * -0.1}px 0 ${height * 0.15}px`,
+          `#ffffff ${width * 0.3}px ${height * 0.05}px 0 ${height * 0.08}px`,
+          `#ffffff ${width * 0.85}px ${height * 0.08}px 0 ${height * 0.1}px`,
+          `#ffffff ${width * 0.15}px ${height * -0.15}px 0 ${height * 0.06}px`
+        ];
+        break;
     }
-  };
-  box.appendChild(input);
-}
-
-          if (this.currentUser && c.username === this.currentUser.username) {
-            const editBtn = document.createElement("button");
-            editBtn.textContent = "✏️";
-            
-
-editBtn.onclick = () => {
-  const span = document.getElementById("text-" + c.itemId);
-  const originalText = span.textContent;
-  const input = document.createElement("input");
-  input.type = "text";
-  input.value = originalText;
-  input.style.marginLeft = "8px";
-  input.onkeydown = (e) => {
-    if (e.key === "Enter") {
-      const updated = input.value.trim();
-      if (updated) {
-        const i = storage.comments.findIndex(x => x.itemId === c.itemId && x.username === c.username && x.text === originalText);
-        if (i !== -1) {
-          storage.comments[i].text = updated;
-          storage.comments[i].date = new Date().toLocaleString();
-          save();
-          setTimeout(() => JayApp.displayAllComments(), 100);
-        }
-      }
-    }
-  };
-  const cancelBtn = document.createElement("button");
-  cancelBtn.textContent = "Cancel";
-  cancelBtn.style.marginLeft = "5px";
-  cancelBtn.onclick = () => {
-    input.replaceWith(span);
-    cancelBtn.remove();
-  };
-  span.replaceWith(input);
-  input.after(cancelBtn);
-  input.focus();
-  input.focus();
-
-  if (newText && newText.trim()) {
-    const i = storage.comments.findIndex(x => x.itemId === c.itemId && x.username === c.username && x.text === c.text);
-    if (i !== -1) {
-      storage.comments[i].text = newText.trim();
-      storage.comments[i].date = new Date().toLocaleString();
-      save();
-      setTimeout(() => JayApp.displayAllComments(), 100);
-    }
+    
+    cloud.style.boxShadow = shadows.join(', ');
+    cloud.style.opacity = '0.85';
+    
+    cloud.style.animation = `cloud-float ${duration}s linear forwards`;
+    
+    document.body.appendChild(cloud);
+    
+    // Supprimer le nuage après l'animation
+    setTimeout(() => {
+      cloud.remove();
+    }, duration * 1000);
   }
-};
+  
+  // Faire apparaître des nuages à des intervalles aléatoires
+  function scheduleNextCloud() {
+    // Intervalle aléatoire entre 1 et 4 secondes
+    const interval = Math.floor(Math.random() * 4000) + 1000;
+    
+    setTimeout(() => {
+      spawnCloud();
+      scheduleNextCloud(); // Planifier le prochain nuage
+    }, interval);
+  }
+  
+  // Lancer le premier nuage immédiatement
+  spawnCloud();
+  
+  // Puis lancer le cycle régulier après 2-6 secondes
+  scheduleNextCloud();
+}
 
-            p.appendChild(editBtn);
-            const delBtn = document.createElement("button");
-            delBtn.textContent = "🗑️";
-            delBtn.onclick = () => JayApp.deleteComment(c.itemId);
-            p.appendChild(delBtn);
+// Appeler la fonction au chargement
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', createClouds);
+} else {
+  createClouds();
+}
+
+// Créer des feux d'artifice
+function createFireworks() {
+  function spawnFirework() {
+    // Position horizontale aléatoire
+    const posX = Math.random() * 100;
+    
+    // Hauteur de lancement aléatoire (entre 30% et 80% de la hauteur)
+    const launchHeight = (Math.random() * 50 + 30);
+    
+    // Couleur aléatoire pour l'explosion ET la fusée
+    const colors = ['#ff6b9d', '#c06c84', '#6c5ce7', '#a29bfe', '#fd79a8', '#fdcb6e', '#00b894', '#0984e3', '#ffa502'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    
+    // Créer la fusée
+    const rocket = document.createElement('div');
+    rocket.style.position = 'fixed';
+    rocket.style.left = posX + '%';
+    rocket.style.bottom = '0px';
+    rocket.style.width = '4px';
+    rocket.style.height = '30px';
+    rocket.style.background = randomColor;
+    rocket.style.zIndex = '-4';
+    rocket.style.pointerEvents = 'none';
+    rocket.style.boxShadow = `0 0 8px ${randomColor}`;
+    rocket.style.setProperty('--launch-height', launchHeight + 'vh');
+    rocket.style.animation = `firework-launch 1.5s ease-out forwards`;
+    
+    document.body.appendChild(rocket);
+    
+    // Créer l'explosion après le lancement
+    setTimeout(() => {
+      rocket.remove();
+      
+      // Créer les particules de l'explosion
+      const particleCount = 30 + Math.random() * 20;
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        const angle = (i / particleCount) * Math.PI * 2;
+        const velocity = 3 + Math.random() * 5;
+        const vx = Math.cos(angle) * velocity;
+        const vy = Math.sin(angle) * velocity;
+        
+        particle.style.position = 'fixed';
+        particle.style.left = posX + '%';
+        particle.style.bottom = launchHeight + 'vh';
+        particle.style.width = '6px';
+        particle.style.height = '6px';
+        particle.style.background = randomColor;
+        particle.style.borderRadius = '50%';
+        particle.style.zIndex = '-4';
+        particle.style.pointerEvents = 'none';
+        particle.style.boxShadow = `0 0 12px ${randomColor}`;
+        
+        document.body.appendChild(particle);
+        
+        // Animer la particule
+        let x = 0, y = 0;
+        const gravity = 0.1;
+        let velY = vy;
+        let frame = 0;
+        const maxFrames = 80;
+        
+        const animate = () => {
+          frame++;
+          x += vx;
+          y += velY;
+          velY += gravity;
+          
+          particle.style.left = (posX + (x / 10)) + '%';
+          particle.style.bottom = (launchHeight + (y / 10)) + 'vh';
+          particle.style.opacity = (1 - (frame / maxFrames));
+          
+          if (frame < maxFrames) {
+            requestAnimationFrame(animate);
+          } else {
+            particle.remove();
           }
-        }
-      });
-    },
+        };
+        
+        animate();
+      }
+    }, 1500);
+  }
+  
+  // Planifier les feux d'artifice à des intervalles aléatoires
+  function scheduleNextFirework() {
+    // Intervalle aléatoire entre 5 et 30 secondes
+    const interval = Math.floor(Math.random() * 5000) + 1000;
+    
+    setTimeout(() => {
+      spawnFirework();
+      scheduleNextFirework();
+    }, interval);
+  }
+  
+  // Lancer le cycle
+  scheduleNextFirework();
+}
 
-    displayAllLikes() {
-      document.querySelectorAll(".like-count").forEach(span => {
-        const itemId = span.dataset.item;
-        const count = storage.likes.filter(l => l.itemId === itemId).length;
-        span.textContent = "❤️ " + count;
-      });
-    },
-
-    getUser() {
-      return this.currentUser;
-    }
-  };
-
-  setTimeout(() => JayApp.displayAllComments(), 100); JayApp.displayAllLikes();
-  JayApp.displayAllLikes();
-});
+// Appeler la fonction au chargement
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', createFireworks);
+} else {
+  createFireworks();
+}

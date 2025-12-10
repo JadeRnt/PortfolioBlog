@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Flying Zeppelin 🛩</title>
+  <title>Portfolio</title>
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/scripts.js" defer></script>
 </head>
@@ -15,64 +15,13 @@
       <a href="drawings.html">🎨 Drawings</a>
       <a href="blog.html">📝 Blog</a>
       <a href="projects.html">🛠 Projects</a>
-      <a href="login.html">🔐 Login</a>
 <span id="user-display" style="float:right; font-family:monospace;"></span>
     </nav>
   </header>
 
-  <h1>Flying Zeppelin 🛩</h1>
-  <button onclick="JayApp.like('drawing2')"><span class="like-count" data-item="drawing2">❤️</span></button>
-  <button onclick="JayApp.comment('drawing2', prompt('Comment:'))">💬</button>
-  <div class="comments-box" id="comments-drawing2"></div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    try {
-      const raw = localStorage.getItem("currentUserData");
-      if (raw && raw.startsWith("{")) {
-        const session = JSON.parse(raw);
-        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
-          const username = session.user.username;
-          const container = document.getElementById("user-display");
-          if (container) container.textContent = "👤 " + username;
-        }
-      }
-    } catch (e) {}
-  });
-</script>
-
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("user-display");
-    try {
-      const raw = localStorage.getItem("currentUserData");
-      if (raw && raw.trim().startsWith("{")) {
-        const session = JSON.parse(raw);
-        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
-          const username = session.user.username;
-          if (container) {
-            container.innerHTML = `👤 ${username} <button onclick="JayApp.logout(); location.reload();">Logout</button>`;
-          }
-          if (typeof JayApp !== 'undefined') {
-            JayApp.displayAllComments?.();
-            JayApp.displayAllLikes?.();
-          }
-        }
-      }
-    } catch (e) {
-      if (container) container.textContent = "";
-    }
-  });
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", e => e.stopPropagation());
-  });
-});
-</script>
+  <section>
+  <h1>Second OC</h1>
+  </section>
 
 </body>
 </html>
