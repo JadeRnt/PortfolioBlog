@@ -5,6 +5,13 @@
   src: url("https://fonts.gstatic.com/s/pressstart2p/v11/7AtF9pT2G4pDrFygo8KJ0E8.woff2") format("woff2");
 }
 
+/* Variables pour espacement du header (desktop / tablet / mobile) */
+:root {
+  --header-space-desktop: 120px;
+  --header-space-tablet: 100px;
+  --header-space-mobile: 88px;
+}
+
 /* ---------------------------------------------------------------------- */
 /* Style pour les nuages créés en JavaScript */
 /* ---------------------------------------------------------------------- */
@@ -19,13 +26,17 @@
 }
 
 @keyframes cloud-float {
-  from { 
+  from {
     left: -250px;
   }
-  to { 
-    left: 100%;
+  to {
+    left: 100vw;
   }
 }
+
+/* ---------------------------------------------------------------------- */
+/* Global / Body */
+/* ---------------------------------------------------------------------- */
 
 body {
   font-family: "PixelCozy", monospace;
@@ -39,20 +50,29 @@ body {
   position: relative;
   min-height: 100vh;
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 
+/* Container: leaves space for fixed header */
 .container {
   width: 90%;
   max-width: 600px;
   margin: 0 auto;
-  padding-top: 30px;
+  padding-top: var(--header-space-desktop); /* space so content starts below fixed header */
   padding-bottom: 50px;
   z-index: 10;
   position: relative;
+  box-sizing: border-box;
+}
+
+/* If a page does not wrap sections in .container and sections are direct children of body,
+   make the first section start after the fixed header. */
+body > section:first-of-type {
+  margin-top: var(--header-space-desktop);
 }
 
 /* ---------------------------------------------------------------------- */
-/* NAVIGATION PASTEL - HEADER FIXE ET AGRANDI */
+/* NAVIGATION PASTEL - HEADER FIXE, RESPONSIVE ET AGRANDI */
 /* ---------------------------------------------------------------------- */
 
 header {
@@ -65,9 +85,10 @@ header {
   background: #bfaed9;
 }
 
+/* nav uses flex, centers links and allows wrapping on small screens */
 nav {
-  background: #bfaed9;
-  padding: 25px 20px;
+  background: transparent;
+  padding: 20px 18px;            /* base padding, adjusts in media queries */
   text-align: center;
   border-top: 3px solid #a18fbf;
   border-bottom: 3px solid #a18fbf;
@@ -77,42 +98,39 @@ nav {
   width: 100%;
   max-width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
   position: relative;
+  box-sizing: border-box;
 }
 
+/* nav links */
 nav a {
   color: #fff;
   text-decoration: none;
-  font-size: 10px;
+  font-size: 12px;   /* slightly larger for readability */
   margin: 0;
   white-space: nowrap;
+  padding: 4px 6px;
 }
 
+/* hover state */
 nav a:hover {
   color: #ffd1dc;
   text-shadow: 1px 1px #6b5e5e;
 }
 
+/* user display (right side) - absolute on larger screens, flows on small */
 #user-display {
   color: #fff;
-  font-size: 10px;
+  font-size: 12px;
   position: absolute;
-  right: 25px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
-}
-
-.container {
-  width: 90%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding-top: 120px;
-  padding-bottom: 50px;
-  z-index: 10;
-  position: relative;
+  white-space: nowrap;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -122,10 +140,6 @@ nav a:hover {
 @keyframes float-house {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
-}
-
-section:first-of-type {
-  margin-top: 120px;
 }
 
 section {
@@ -152,6 +166,10 @@ h1, h2 {
   font-size: 14px;
   margin-bottom: 15px;
 }
+
+/* ---------------------------------------------------------------------- */
+/* Controls, items, comments */
+/* ---------------------------------------------------------------------- */
 
 button {
   font-family: "PixelCozy";
@@ -200,13 +218,16 @@ button:hover {
   border-radius: 6px;
 }
 
-/* Style pour les images d'illustration dans les pages de dessin */
+/* ---------------------------------------------------------------------- */
+/* ARTWORK (image) responsive */
+/* ---------------------------------------------------------------------- */
+
 .artwork {
   display: block;
-  max-width: 100%;
-  width: 320px;           /* taille par défaut, adaptative */
+  max-width: 90%;
+  width: clamp(220px, 45vw, 420px); /* adapts between devices */
   height: auto;
-  margin: 18px auto 8px;  /* centré et espacé du texte */
+  margin: 18px auto 8px;
   image-rendering: pixelated;
   border: 6px solid #fff7f0;
   box-shadow: 6px 6px 0 0 #b08c6e;
@@ -224,14 +245,76 @@ button:hover {
   font-family: "PixelCozy", monospace;
 }
 
-@keyframes cloud-float {
-  from { 
-    left: -250px;
+/* ---------------------------------------------------------------------- */
+/* Responsive adjustments */
+/* ---------------------------------------------------------------------- */
+
+/* Tablet-ish screens */
+@media (max-width: 900px) {
+  nav {
+    padding: 18px 16px;
+    gap: 16px;
   }
-  to { 
-    left: 100vw;
+
+  nav a {
+    font-size: 11px;
+  }
+
+  #user-display {
+    right: 14px;
+    font-size: 11px;
+  }
+
+  .container {
+    padding-top: var(--header-space-tablet);
+    max-width: 760px;
+  }
+
+  body > section:first-of-type {
+    margin-top: var(--header-space-tablet);
   }
 }
+
+/* Augmenter la lisibilité sur petits écrans */
+@media (max-width: 480px) {
+  /* Corps / texte principal */
+  body {
+    font-size: 12px; /* was 10px -> more readable on phones */
+    line-height: 1.45;
+  }
+
+  /* Titres un peu plus grands */
+  h1, h2 {
+    font-size: 26px;
+    line-height: 1.2;
+  }
+
+  /* Navigation - plus lisible et tactiles */
+  nav a {
+    font-size: 22px;
+    padding: 8px 10px;
+  }
+
+  /* Boutons */
+  button {
+    font-size: 20px;
+    padding: 10px 14px;
+  }
+
+  /* Item cards: slightly larger text */
+  .item, .comments-box {
+    font-size: 20px;
+  }
+
+  /* Artwork caption */
+  .artwork-caption {
+    font-size: 20px;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Animations pour feux d'artifice (utilisées par JS) */
+/* ---------------------------------------------------------------------- */
 
 @keyframes firework-launch {
   from {
