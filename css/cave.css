@@ -1,0 +1,49 @@
+/* ── cave.css — shared styles for all portfolio pages ── */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #030208;
+  overflow: hidden;
+  font-family: monospace;
+}
+
+canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Fade overlay (black → transparent on load, reverse on leave) */
+#fade {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,1);
+  pointer-events: none;
+  transition: background 0.8s ease;
+  z-index: 50;
+}
+#fade.in  { background: rgba(0,0,0,0); }
+#fade.out { background: rgba(0,0,0,1); }
+
+/* Controls hint bottom-center */
+#hint {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(160,140,200,0.4);
+  font: 10px/1 monospace;
+  letter-spacing: 2px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* Invisible anchor overlays for clickable links (projects GitHub buttons) */
+.link-overlay {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 20;
+}

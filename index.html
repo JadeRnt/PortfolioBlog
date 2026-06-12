@@ -1,126 +1,236 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Portfolio</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="js/scripts.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jay — Portfolio</title>
+<link rel="stylesheet" href="css/cave.css">
 </head>
 <body>
+<canvas id="c"></canvas>
+<div id="hint">ARROWS / WASD · SPACE jump · ↑ or E to enter a door</div>
+<div id="fade"></div>
 
-
-<header>
-  <nav>
-<div id="user-display" style="position:absolute; right:25px; top:23px; font-family:monospace;"></div><div id="user-display" style="position:absolute; right:25px; top:23px; font-family:monospace;"></div>
-    <a href="index.html">🧭 About</a>
-    <a href="drawings.html">🎨 Drawings</a>
-    <a href="blog.html">📝 Blog</a>
-    <a href="projects.html">🛠 Projects</a>
-<span id="user-display" style="float:right; font-family:monospace;"></span>
-  </nav>
-</header>
-
-  <section id="about">
-    <h1><span class="icon">💾</span>Hi, I'm Jay</h1>
-    <p>They/Them - French computer science student.</p>
-  </section>
-
-  <section id="drawings" onclick="location.href='drawings.html'">
-    <h2>🎨 Drawings</h2>
-    <div class="item" onclick="event.stopPropagation(); location.href='drawing1.html'">
-      <p>Logo SE Polytech</p>
-    </div>
-    <div class="item" onclick="event.stopPropagation(); location.href='drawing2.html'">
-      <p>Second OC</p>  
-    </div>
-    <div class="item" onclick="event.stopPropagation(); location.href='drawing3.html'">
-      <p>First OC</p>
-    </div>
-  </section>
-
-  <section id="blog" onclick="location.href='blog.html'">
-    <h2>📝 Blog</h2>
-    <div class="item" onclick="event.stopPropagation(); location.href='blog1.html'">
-      <p>Making pixel art</p>
-    </div>
-    <div class="item" onclick="event.stopPropagation(); location.href='blog2.html'">
-      <p>Building games in JS</p>
-    </div>
-    <div class="item" onclick="event.stopPropagation(); location.href='blog3.html'">
-      <p>Why retro matters</p>
-    </div>
-    </section>
-
-  <section id="projects" onclick="location.href='projects.html'">
-    <h2>🛠 Projects</h2>
-    <div class="item" onclick="event.stopPropagation(); location.href='project1.html'">
-      <p>8-bit Audio Player</p>
-    </div>
-    <div class="item" onclick="event.stopPropagation(); location.href='project2.html'">
-      <p>Terminal Emulator</p>
-    </div>
-    <div class="item" onclick="event.stopPropagation(); location.href='project3.html'">
-      <p>Retro Blog Theme</p>
-    </div>
-  </section>
-
-  <div id="login" style="display:none;">
-    <h2>🔐 Login</h2>
-    <input id="login-username" placeholder="Username"><br>
-    <input id="login-password" type="password" placeholder="Password"><br>
-    <button onclick="JayApp.login(document.getElementById('login-username').value, document.getElementById('login-password').value)">Login</button>
-    <button onclick="JayApp.signUp(document.getElementById('login-username').value, document.getElementById('login-password').value)">Sign Up</button>
-  <div class="comments-box" id="comments-project3" class="comments-box limited-comments"></div></div>
-
+<script src="js/draw.js"></script>
+<script src="js/player.js"></script>
+<script src="js/room.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    try {
-      const raw = localStorage.getItem("currentUserData");
-      if (raw && raw.startsWith("{")) {
-        const session = JSON.parse(raw);
-        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
-          const username = session.user.username;
-          const container = document.getElementById("user-display");
-          if (container) container.textContent = "👤 " + username;
-        }
-      }
-    } catch (e) {}
-  });
-</script>
+// ── Canvas ───────────────────────────────────────────────────────────────────
+const cv = document.getElementById('c'), cx = cv.getContext('2d');
+let W = window.innerWidth, H = window.innerHeight;
+cv.width = W; cv.height = H;
+function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+window.addEventListener('resize', resize);
+fadeIn();
 
+// ── World ────────────────────────────────────────────────────────────────────
+const WORLD_W = 5200;
+const GY_F    = 0.75;
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("user-display");
-    try {
-      const raw = localStorage.getItem("currentUserData");
-      if (raw && raw.trim().startsWith("{")) {
-        const session = JSON.parse(raw);
-        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
-          const username = session.user.username;
-          if (container) {
-            container.innerHTML = `👤 ${username} <button onclick="JayApp.logout(); location.reload();">Logout</button>`;
-          }
-          if (typeof JayApp !== 'undefined') {
-            JayApp.displayAllComments?.();
-            JayApp.displayAllLikes?.();
-          }
-        }
-      }
-    } catch (e) {
-      if (container) container.textContent = "";
-    }
-  });
-</script>
+const platforms = [
+  [320,0.55,140,14],[620,0.48,110,14],[880,0.54,160,14],
+  [1200,0.44,130,14],[1500,0.52,170,14],[1850,0.45,120,14],
+  [2100,0.51,180,14],[2450,0.43,140,14],[2800,0.50,150,14],
+  [3150,0.44,130,14],[3500,0.52,160,14],[3850,0.45,170,14],
+  [4200,0.51,140,14],[4550,0.46,130,14],
+];
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", e => e.stopPropagation());
-  });
+const doors = [
+  { x:260,  w:52, label:'ABOUT',    sub:'who am i',        url:'about.html',    color:'#40e8d0', glyph:'⬟' },
+  { x:920,  w:52, label:'DRAWINGS', sub:'pixel & art',     url:'drawings.html', color:'#e040c0', glyph:'◈' },
+  { x:2680, w:52, label:'PROJECTS', sub:'things i built',  url:'projects.html', color:'#7c5cfc', glyph:'✦' },
+];
+
+// ── Seeded decor ──────────────────────────────────────────────────────────────
+const rng = mkRng(42);
+const COLS = ['#4060ff','#a040ff','#40e0c0','#c060ff','#60a0ff','#ff60a0'];
+const floorCryst = [], ceilCryst = [], vines = [];
+for (let x=60; x<WORLD_W; x+=30+rng()*90) {
+  const n = Math.floor(rng()*4)+1, col = COLS[Math.floor(rng()*6)];
+  for (let i=0;i<n;i++) floorCryst.push({x:x+rng()*20-10,h:12+rng()*38,w:3+rng()*6,lean:rng()*.35-.175,col,ph:rng()*Math.PI*2,sp:.015+rng()*.02});
+}
+for (let x=100; x<WORLD_W; x+=50+rng()*120) {
+  const n = Math.floor(rng()*3)+1, col = COLS[Math.floor(rng()*4)];
+  for (let i=0;i<n;i++) ceilCryst.push({x:x+rng()*30-15,h:10+rng()*35,w:2+rng()*5,lean:rng()*.2-.1,col,ph:rng()*Math.PI*2,sp:.01+rng()*.015,ceiling:rng()*.18});
+}
+for (let x=150; x<WORLD_W; x+=80+rng()*140) {
+  const segs=[]; let tot=0;
+  for (let i=0;i<Math.floor(4+rng()*8);i++){segs.push({dx:rng()*6-3,dy:10+rng()*6});tot+=segs[segs.length-1].dy;}
+  vines.push({x,segs,phase:rng()*Math.PI*2,speed:.008+rng()*.012});
+}
+
+// ── Heat particles + faeries ──────────────────────────────────────────────────
+const rng2 = mkRng(99);
+const HEAT_COLS = ['#40ffe0','#60ffcc','#80fff0','#a0ffee','#ffffff','#20e8d0'];
+const heatParts = [];
+for (let i=0;i<180;i++) heatParts.push({x:rng2()*WORLD_W,born:Math.floor(rng2()*300),life:80+Math.floor(rng2()*120),riseH:30+rng2()*60,sz:1+rng2()*2.5,phase:rng2()*Math.PI*2,swaySpeed:.04+rng2()*.06,swayAmp:4+rng2()*10,color:HEAT_COLS[Math.floor(rng2()*6)]});
+const FAIRY_COLS = ['#c0ffee','#a0f0ff','#ffe0ff','#d0c0ff','#80ffe8','#ffcce8'];
+const faeries = [];
+for (let i=0;i<22;i++) faeries.push({x:200+rng2()*4800,cycle:200+Math.floor(rng2()*300),rx:20+rng2()*40,ry:8+rng2()*20,baseH:20+rng2()*55,phase:rng2()*Math.PI*2,flapSpeed:.18+rng2()*.12,glowR:12+rng2()*10,color:FAIRY_COLS[Math.floor(rng2()*6)]});
+
+const lakeShimmer = [];
+for (let i=0;i<200;i++) lakeShimmer.push({x:rng2()*WORLD_W,phase:rng2()*Math.PI*2,speed:.02+rng2()*.04,size:1+rng2()*2});
+
+const ambDust = makeAmbientDust(60, WORLD_W, '#6040b0');
+let tick = 0;
+let camX = 0;
+
+// ── Restore player position if returning from a room ─────────────────────────
+// Read spawn position from sub-page exit door (returnX stored in sessionStorage)
+function getStartX() {
+  try {
+    const rx = sessionStorage.getItem('returnX');
+    if (rx) { sessionStorage.removeItem('returnX'); return parseInt(rx, 10); }
+  } catch(e) {}
+  return 300;
+}
+const startX = getStartX();
+
+// ── Input ─────────────────────────────────────────────────────────────────────
+initInput(door => {
+  navigateTo(door.url);
 });
-</script>
 
+// ── Update ────────────────────────────────────────────────────────────────────
+function update() {
+  if (isTransitioning()) return;
+  const GY = H * GY_F;
+  updatePlayer(GY, platforms.map(([px,pyf,pw,ph]) => [px, H*pyf, pw, ph]), doors, spawnDust);
+  camX = updateCamera(camX, Player.x - W*0.38, W, WORLD_W);
+  updateDust();
+}
+
+// ── Draw lake ─────────────────────────────────────────────────────────────────
+function drawLake(GY) {
+  const t = tick, p6 = camX * 0.6, p9 = camX * 0.9;
+  const lakeTop = GY + H*0.02;
+
+  const wg = cx.createLinearGradient(0,lakeTop,0,H);
+  wg.addColorStop(0,'#0a1a30'); wg.addColorStop(0.2,'#061428'); wg.addColorStop(1,'#020810');
+  cx.fillStyle = wg; cx.fillRect(0,lakeTop,W,H-lakeTop);
+
+  const dg = cx.createRadialGradient(W*.5,H,10,W*.5,H,H*.7);
+  dg.addColorStop(0,'rgba(0,200,180,0.12)'); dg.addColorStop(1,'transparent');
+  cx.fillStyle=dg; cx.fillRect(0,lakeTop,W,H-lakeTop);
+
+  // Shimmer
+  lakeShimmer.forEach(sh => {
+    const sx=sh.x-p6; if(sx<0||sx>W)return;
+    const a=.22+Math.sin(t*sh.speed+sh.phase)*.18;
+    const wy=lakeTop+Math.sin(t*.025+sx*.015)*1.8;
+    cx.fillStyle=`rgba(120,220,255,${a})`; cx.fillRect(Math.round(sx),Math.round(wy),sh.size,1);
+  });
+
+  // Wave line
+  cx.strokeStyle='rgba(80,180,220,0.14)'; cx.lineWidth=1; cx.beginPath();
+  for(let wx=0;wx<=W;wx+=4){const wy=lakeTop+Math.sin(t*.025+wx*.015)*1.8+Math.sin(t*.04+wx*.008)*1.2;wx===0?cx.moveTo(wx,wy):cx.lineTo(wx,wy);}
+  cx.stroke();
+
+  // Heat particles
+  heatParts.forEach(hp => {
+    const sx=hp.x-p6; if(sx<-10||sx>W+10)return;
+    const age=(t-hp.born)%hp.life, prog=age/hp.life;
+    const alpha=prog<.15?prog/.15:prog>.75?(1-prog)/.25:1;
+    const rise=prog*hp.riseH, sway=Math.sin(t*hp.swaySpeed+hp.phase)*hp.swayAmp*prog;
+    cx.globalAlpha=alpha*.65; cx.fillStyle=hp.color;
+    cx.beginPath(); cx.arc(sx+sway,lakeTop-rise,hp.sz*(1-prog*.5),0,Math.PI*2); cx.fill();
+    cx.globalAlpha=alpha*.3; cx.fillStyle='#fff';
+    cx.beginPath(); cx.arc(sx+sway,lakeTop-rise,hp.sz*.35,0,Math.PI*2); cx.fill();
+    cx.globalAlpha=1;
+  });
+
+  // Faeries
+  faeries.forEach(fa => {
+    const sx=fa.x-p6*.95; if(sx<-30||sx>W+30)return;
+    const prog=((t%fa.cycle)/fa.cycle), ang=prog*Math.PI*2;
+    const fx=sx+Math.sin(ang)*fa.rx, fy=lakeTop-fa.baseH-Math.sin(ang*2)*fa.ry-Math.sin(t*.01+fa.phase)*8;
+    const wf=Math.sin(t*fa.flapSpeed+fa.phase), faA=.65+Math.sin(t*.03+fa.phase)*.25;
+    drawGlow(cx,fx,fy,fa.glowR,fa.color,.3*faA);
+    cx.save(); cx.translate(fx,fy);
+    cx.globalAlpha=.55*faA; cx.fillStyle=fa.color;
+    cx.beginPath(); cx.ellipse(-5+wf*2,-2,7,3.5,-0.4+wf*.3,0,Math.PI*2); cx.fill();
+    cx.beginPath(); cx.ellipse(5-wf*2,-2,7,3.5,0.4-wf*.3,0,Math.PI*2); cx.fill();
+    cx.globalAlpha=.35*faA;
+    cx.beginPath(); cx.ellipse(-4+wf,2,5,2.5,-0.6+wf*.2,0,Math.PI*2); cx.fill();
+    cx.beginPath(); cx.ellipse(4-wf,2,5,2.5,0.6-wf*.2,0,Math.PI*2); cx.fill();
+    cx.globalAlpha=faA; cx.fillStyle='#fff';
+    cx.beginPath(); cx.ellipse(0,0,2,3.5,0,0,Math.PI*2); cx.fill();
+    cx.globalAlpha=1; cx.restore();
+  });
+
+  drawGlow(cx,W*.3,lakeTop,W*.5,'#00c8b0',.06);
+  drawGlow(cx,W*.7,lakeTop,W*.4,'#0050a0',.05);
+}
+
+// ── Main draw ─────────────────────────────────────────────────────────────────
+function draw() {
+  const GY = H * GY_F;
+  cx.clearRect(0,0,W,H);
+
+  // Cave background
+  drawCaveBG(cx, W, H, tick, camX, {
+    groundY: GY, parallax: 0.6, rngSeed: 42,
+    crystals: ceilCryst, vines,
+  });
+
+  drawLake(GY);
+
+  // Mid cave walls
+  const p3 = camX * 0.3;
+  cx.fillStyle = '#0d0b1e';
+  for (let i=0;i<12;i++) {
+    const bx=((i*550-p3+400)%(WORLD_W*.3+W+400))-200;
+    const bh=60+((i*89)%100), bw=180+((i*67)%100);
+    cx.beginPath();
+    cx.moveTo(bx,GY-bh); cx.lineTo(bx+bw*.3,GY-bh*1.1);
+    cx.lineTo(bx+bw*.6,GY-bh*.85); cx.lineTo(bx+bw,GY-bh*.6);
+    cx.lineTo(bx+bw,GY); cx.lineTo(bx,GY); cx.fill();
+  }
+
+  drawCaveGround(cx, W, H, tick, camX, { groundY:GY, floorCryst, platforms: platforms.map(([px,pyf,pw,ph])=>[px,H*pyf,pw,ph]) });
+
+  doors.forEach(d => drawDoor(cx, d, camX, GY, Player.nearDoor===d, tick));
+
+  drawDust(cx, camX);
+  drawAmbientDust(cx, ambDust, camX, WORLD_W, H);
+
+  // Player
+  drawPlayer(cx, Player.x - camX, Player.y, tick);
+
+  drawVignette(cx, W, H);
+
+  // HUD
+  cx.fillStyle='#c0b0ff'; cx.font='bold 12px monospace'; cx.textAlign='left';
+  cx.shadowBlur=8; cx.shadowColor='#8060ff';
+  cx.fillText('✦ JAY.EXE', 16, 22); cx.shadowBlur=0;
+  cx.fillStyle='#5a5080'; cx.font='9px monospace';
+  cx.fillText('v1.0 · portfolio', 16, 34);
+
+  // Minimap
+  const mmW=130,mmH=9,mmX=W-mmW-16,mmY=16;
+  cx.fillStyle='rgba(0,0,0,0.6)'; cx.fillRect(mmX-1,mmY-1,mmW+2,mmH+2);
+  cx.fillStyle='#100d20'; cx.fillRect(mmX,mmY,mmW,mmH);
+  doors.forEach(d=>{
+    const pct=d.x/WORLD_W;
+    cx.fillStyle=d.color+'cc';
+    cx.fillRect(mmX+Math.round(pct*mmW),mmY,2,mmH);
+  });
+  const ppct=Player.x/WORLD_W;
+  cx.fillStyle='#ffffff'; cx.fillRect(mmX+Math.round(ppct*mmW)-1,mmY,3,mmH);
+  cx.fillStyle='#4a4070'; cx.font='7px monospace'; cx.textAlign='right';
+  cx.fillText('map',W-16,mmY+mmH+9);
+}
+
+// ── Loop ──────────────────────────────────────────────────────────────────────
+function loop() {
+  tick++;
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+Player.init(startX, H * GY_F);
+requestAnimationFrame(loop);
+</script>
 </body>
 </html>

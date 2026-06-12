@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About — Jay</title>
+<link rel="stylesheet" href="css/cave.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hint">ARROWS / WASD · SPACE jump · ↑ or E to use exit door</div>
+<div id="fade"></div>
+<script src="js/draw.js"></script>
+<script src="js/player.js"></script>
+<script src="js/room.js"></script>
+<script>
+// ── Canvas ───────────────────────────────────────────────────────────────────
+const cv = document.getElementById('c'), cx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+let W = window.innerWidth, H = window.innerHeight;
+
+// ── Data — declare BEFORE resize() ───────────────────────────────────────────
+const PANELS = [
+  { title:'// IDENTITY', color:'#40e8d0', icon:'◈',
+    lines:['Name: Jay  (Jade Renaut)','Pronouns: They / Them','Location: Montpellier, France','School: Polytech Montpellier','Dept: Electronics & Industrial CS'] },
+  { title:'// SKILLS',   color:'#a855f7', icon:'✦',
+    lines:['Embedded C  (PIC18, XC8/MPLAB)','Python — async, instrumentation','Web: HTML · CSS · JavaScript','VHDL, Scilab, Qucs-S','Signal processing, SCPI/TCP'] },
+  { title:'// CONTACT',  color:'#f0b040', icon:'⬡',
+    lines:['GitHub: github.com/jay','Email: jay@example.com','LinkedIn: linkedin.com/in/jay','Currently: open to internships','NAIST internship → summer 2027'] },
+];
+const PANEL_W = 260, PANEL_H = 220, SPACING = 320;
+const WORLD_W = 2200;
+const GY_F    = 0.75;
+const EXIT_DOOR = { x:WORLD_W-130, w:52, label:'← EXIT', sub:'back to world', url:'index.html', color:'#40e8d0', glyph:'↩' };
+const doors = [EXIT_DOOR];
+
+// ── Resize — AFTER all const declarations ─────────────────────────────────────
+function resize() {
+  W = cv.width  = window.innerWidth;
+  H = cv.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+fadeIn();
+
+// ── Decor ─────────────────────────────────────────────────────────────────────
+const rng = mkRng(77);
+const COLS = ['#4060ff','#a040ff','#40e0c0','#c060ff','#60a0ff'];
+const floorCryst = [], ceilCryst = [], vines = [];
+for (let x = 40; x < WORLD_W; x += 25+rng()*70)
+  floorCryst.push({ x, h:8+rng()*28, w:2+rng()*5, lean:rng()*.3-.15, col:COLS[Math.floor(rng()*5)], ph:rng()*Math.PI*2, sp:.015+rng()*.02 });
+for (let x = 60; x < WORLD_W; x += 40+rng()*90) {
+  const col = COLS[Math.floor(rng()*5)];
+  for (let i = 0; i < Math.floor(rng()*2)+1; i++)
+    ceilCryst.push({ x:x+rng()*20-10, h:8+rng()*25, w:2+rng()*4, lean:rng()*.2-.1, col, ph:rng()*Math.PI*2, sp:.01+rng()*.015, ceiling:rng()*.15 });
+}
+for (let x = 150; x < WORLD_W; x += 80+rng()*140) {
+  const segs = [];
+  for (let i = 0; i < Math.floor(4+rng()*8); i++) segs.push({ dx:rng()*6-3, dy:10+rng()*6 });
+  vines.push({ x, segs, phase:rng()*Math.PI*2, speed:.008+rng()*.012 });
+}
+const ambDust = makeAmbientDust(50, WORLD_W, '#8060ff');
+let tick = 0, camX = 0;
+
+// ── Input ─────────────────────────────────────────────────────────────────────
+initInput(door => {
+  if (door.returnX !== undefined)
+    sessionStorage.setItem('returnX', String(door.returnX + 60));
+  navigateTo(door.url);
+});
+
+// ── Update ────────────────────────────────────────────────────────────────────
+function update() {
+  if (isTransitioning()) return;
+  updatePlayer(H * GY_F, [], doors, spawnDust);
+  camX = updateCamera(camX, Player.x - W * 0.38, W, WORLD_W);
+  updateDust();
+}
+
+// ── Draw panel ────────────────────────────────────────────────────────────────
+function drawPanel(panelIdx, worldX) {
+  const GY   = H * GY_F;
+  const panel = PANELS[panelIdx];
+  const sx   = worldX - camX;
+  const py   = GY - PANEL_H - 70;
+  const [r,g,b] = hexToRgb(panel.color);
+  const pulse   = 0.8 + Math.sin(tick * 0.03 + panelIdx) * 0.15;
+
+  if (sx > W + PANEL_W || sx < -PANEL_W) return;
+
+  // Stone backing
+  cx.fillStyle = '#0c0a1c'; cx.fillRect(sx-8, py-8, PANEL_W+16, PANEL_H+76);
+  cx.fillStyle = '#12102a';
+  for (let i = 0; i < 5; i++) cx.fillRect(sx-8, py-8+i*56, PANEL_W+16, 2);
+  cx.fillStyle = '#0e0c22';
+  for (let i = 0; i < 4; i++) cx.fillRect(sx-8+i*70, py-8, 2, PANEL_H+76);
+
+  // Panel face
+  cx.fillStyle = '#0a0818'; cx.fillRect(sx, py, PANEL_W, PANEL_H);
+  cx.fillStyle = panel.color; cx.fillRect(sx, py, PANEL_W, 3);
+
+  drawCrystal(cx, sx+8,         py, 5, 12, -0.1, panel.color, 0.7*pulse);
+  drawCrystal(cx, sx+PANEL_W-8, py, 5, 12,  0.1, panel.color, 0.7*pulse);
+  drawGlow(cx, sx+PANEL_W/2, py+PANEL_H/2, PANEL_W*0.7, panel.color, 0.05*pulse);
+
+  // Icon
+  cx.fillStyle = panel.color; cx.font = 'bold 20px monospace'; cx.textAlign = 'center';
+  cx.shadowBlur = 10; cx.shadowColor = panel.color;
+  cx.fillText(panel.icon, sx+PANEL_W/2, py+30); cx.shadowBlur = 0;
+
+  // Title
+  cx.fillStyle = panel.color; cx.font = 'bold 11px monospace';
+  cx.fillText(panel.title, sx+PANEL_W/2, py+52);
+
+  // Divider
+  cx.fillStyle = `rgba(${r},${g},${b},0.3)`; cx.fillRect(sx+16, py+58, PANEL_W-32, 1);
+
+  // Lines
+  cx.textAlign = 'left'; cx.font = '10px monospace';
+  panel.lines.forEach((l, i) => {
+    cx.fillStyle = i===0 ? `rgba(${r},${g},${b},0.9)` : '#8878aa';
+    cx.fillText(l, sx+16, py+78+i*22);
+  });
+
+  // Torch post + flame
+  cx.fillStyle = '#1e1a38'; cx.fillRect(sx+PANEL_W/2-2, py+PANEL_H, 4, GY-py-PANEL_H);
+  drawTorch(cx, sx+PANEL_W/2, py+PANEL_H, panel.color, tick, panelIdx);
+  drawGlow(cx, sx+PANEL_W/2, GY, 40, panel.color, 0.14*pulse);
+}
+
+// ── Main draw ─────────────────────────────────────────────────────────────────
+function draw() {
+  if (!W || !H) return;
+  const GY = H * GY_F;
+  cx.clearRect(0, 0, W, H);
+  drawCaveBG(cx, W, H, tick, camX, { groundY:GY, parallax:0.6, rngSeed:77, crystals:ceilCryst, vines });
+  drawCaveGround(cx, W, H, tick, camX, { groundY:GY, floorCryst });
+  PANELS.forEach((_, i) => drawPanel(i, 200 + i * SPACING));
+  drawDoor(cx, EXIT_DOOR, camX, GY, Player.nearDoor===EXIT_DOOR, tick);
+  drawDust(cx, camX);
+  drawAmbientDust(cx, ambDust, camX, WORLD_W, H);
+  drawPlayer(cx, Player.x - camX, Player.y, tick);
+  drawVignette(cx, W, H);
+  drawRoomTitle(cx, '// ABOUT · THE VESSEL', 'chamber of identity', '#40e8d0');
+  drawScrollHints(cx, W, H, camX, WORLD_W - W);
+}
+
+function loop() { tick++; update(); draw(); requestAnimationFrame(loop); }
+Player.init(80, H * GY_F);
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

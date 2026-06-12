@@ -1,95 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Portfolio</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="js/scripts.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projects — Jay</title>
+<link rel="stylesheet" href="css/cave.css">
 </head>
 <body>
-
-  <header>
-    <nav>
-<div id="user-display" style="position:absolute; right:25px; top:23px; font-family:monospace;"></div><div id="user-display" style="position:absolute; right:25px; top:23px; font-family:monospace;"></div>
-      <a href="index.html">🧭 About</a>
-      <a href="drawings.html">🎨 Drawings</a>
-      <a href="blog.html">📝 Blog</a>
-      <a href="projects.html">🛠 Projects</a>
-<span id="user-display" style="float:right; font-family:monospace;"></span>
-    </nav>
-  </header>
-
-  <h1>🛠 My Projects</h1>
-
-  <div class="item" onclick="event.stopPropagation(); openItem('project1')">
-    <p>8-bit Audio Player</p>
-    <button onclick="JayApp.like('project1')"><span class="like-count" data-item="project1">❤️</span></button>
-    <button onclick="JayApp.comment('project1', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-project1"></div>
-  </div>
-
-  <div class="item" onclick="event.stopPropagation(); openItem('project2')">
-    <p>Terminal Emulator</p>
-    <button onclick="JayApp.like('project2')"><span class="like-count" data-item="project2">❤️</span></button>
-    <button onclick="JayApp.comment('project2', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-project2"></div>
-  </div>
-
-  <div class="item" onclick="event.stopPropagation(); openItem('project3')">
-    <p>Retro Blog Theme</p>
-    <button onclick="JayApp.like('project3')"><span class="like-count" data-item="project3">❤️</span></button>
-    <button onclick="JayApp.comment('project3', prompt('Comment:'))">💬</button>
-    <div class="comments-box" id="comments-project3"></div>
-  </div>
-
+<canvas id="c"></canvas>
+<div id="hint">ARROWS / WASD · SPACE jump · ↑ or E to enter a door</div>
+<div id="fade"></div>
+<div id="links"></div>
+<script src="js/draw.js"></script>
+<script src="js/player.js"></script>
+<script src="js/room.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    try {
-      const raw = localStorage.getItem("currentUserData");
-      if (raw && raw.startsWith("{")) {
-        const session = JSON.parse(raw);
-        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
-          const username = session.user.username;
-          const container = document.getElementById("user-display");
-          if (container) container.textContent = "👤 " + username;
-        }
-      }
-    } catch (e) {}
-  });
-</script>
+// ── ALL declarations first, resize() last ────────────────────────────────────
+const cv = document.getElementById('c'), cx = cv.getContext('2d');
+let W = window.innerWidth, H = window.innerHeight;
+cv.width = W; cv.height = H;
 
+const PROJECTS = [
+  { title:'8-bit Audio Player',  desc:['Browser-based audio player','with retro 8-bit aesthetic,','visualizer & custom controls.'],  tags:['JavaScript','Web Audio','Canvas'],  github:'https://github.com/jay/8bit-player', color:'#40e8d0', icon:'♪'  },
+  { title:'Terminal Emulator',   desc:['Web terminal emulator','with custom shell commands,','history and autocomplete.'],           tags:['JavaScript','HTML','CSS'],           github:'https://github.com/jay/terminal',    color:'#7c5cfc', icon:'$_' },
+  { title:'Retro Blog Theme',    desc:['Pixel art blog theme','with animated backgrounds','and monospace typography.'],             tags:['CSS','JavaScript','HTML'],           github:'https://github.com/jay/retro-blog',  color:'#f0b040', icon:'📝' },
+  { title:'TaM Live',            desc:['Real-time transit tracker','for Montpellier using','GTFS-RT + Leaflet maps.'],              tags:['JavaScript','GTFS-RT','Leaflet'],    github:'https://github.com/jay/tam-live',    color:'#e040c0', icon:'🚌' },
+  { title:'PIPIC Sonar',         desc:['PIC18F46K22 multifunction','sonar: OLED display,','Bluetooth RN42 & buzzer.'],             tags:['Embedded C','XC8','PIC18'],          github:'https://github.com/jay/pipic',       color:'#60d080', icon:'◉'  },
+];
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("user-display");
-    try {
-      const raw = localStorage.getItem("currentUserData");
-      if (raw && raw.trim().startsWith("{")) {
-        const session = JSON.parse(raw);
-        if (session && session.timestamp && Date.now() - session.timestamp < 86400000) {
-          const username = session.user.username;
-          if (container) {
-            container.innerHTML = `👤 ${username} <button onclick="JayApp.logout(); location.reload();">Logout</button>`;
-          }
-          if (typeof JayApp !== 'undefined') {
-            JayApp.displayAllComments?.();
-            JayApp.displayAllLikes?.();
-          }
-        }
-      }
-    } catch (e) {
-      if (container) container.textContent = "";
-    }
-  });
-</script>
+const PANEL_W = 240, PANEL_H = 300, PANEL_GAP = 55;
+const WORLD_W = Math.max(3000, PROJECTS.length * (PANEL_W + PANEL_GAP) + 600);
+const GY_F    = 0.78;
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", e => e.stopPropagation());
+// Exit door — positions the player back near the PROJECTS door in index.html
+const EXIT_DOOR = {
+  x: WORLD_W - 140, w: 52,
+  label: '← EXIT', sub: 'back to world',
+  url: 'index.html',
+  returnX: 2680,   // world X of PROJECTS door in index.html
+  color: '#7c5cfc', glyph: '↩',
+};
+const doors = [EXIT_DOOR];
+
+const rng = mkRng(55);
+const COLS = ['#4060ff','#7c5cfc','#40e0c0','#f0b040'];
+const floorCryst = [];
+for (let x = 40; x < WORLD_W; x += 20 + rng()*60)
+  floorCryst.push({ x, h:6+rng()*22, w:2+rng()*4, lean:rng()*.3-.15,
+    col:COLS[Math.floor(rng()*4)], ph:rng()*Math.PI*2, sp:.015+rng()*.02 });
+
+const ambDust = makeAmbientDust(50, WORLD_W, '#7c5cfc');
+let tick = 0, camX = 0;
+
+// ── Resize (only W/H, nothing else) ──────────────────────────────────────────
+function resize() {
+  W = cv.width  = window.innerWidth;
+  H = cv.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+fadeIn();
+
+// ── GitHub link overlays ──────────────────────────────────────────────────────
+function getPanelX(i) { return 170 + i * (PANEL_W + PANEL_GAP) - camX; }
+function getPanelY()  { return H * GY_F - PANEL_H - 50; }
+
+function updateLinks() {
+  const cont = document.getElementById('links');
+  if (!cont || !H) return;
+  if (cont.children.length !== PROJECTS.length) {
+    cont.innerHTML = '';
+    PROJECTS.forEach((p, i) => {
+      const a = document.createElement('a');
+      a.className = 'link-overlay';
+      a.href = p.github; a.target = '_blank'; a.rel = 'noopener'; a.title = 'GitHub';
+      cont.appendChild(a);
+    });
+  }
+  Array.from(cont.children).forEach((a, i) => {
+    const fx = getPanelX(i), fy = getPanelY();
+    a.style.left   = (fx + 16) + 'px';
+    a.style.top    = (fy + PANEL_H - 44) + 'px';
+    a.style.width  = (PANEL_W - 32) + 'px';
+    a.style.height = '32px';
   });
+}
+
+// ── Input ─────────────────────────────────────────────────────────────────────
+initInput(door => {
+  if (door.returnX !== undefined)
+    sessionStorage.setItem('returnX', String(door.returnX + 60));
+  navigateTo(door.url);
 });
-</script>
 
+// ── Update ────────────────────────────────────────────────────────────────────
+function update() {
+  if (isTransitioning()) return;
+  updatePlayer(H * GY_F, [], doors, spawnDust);
+  camX = updateCamera(camX, Player.x - W * 0.38, W, WORLD_W);
+  updateDust();
+  updateLinks();
+}
+
+// ── Draw panel ────────────────────────────────────────────────────────────────
+function drawPanel(i) {
+  const p   = PROJECTS[i];
+  const GY  = H * GY_F;
+  const fx  = getPanelX(i);
+  const fy  = getPanelY();
+  if (fx > W + PANEL_W || fx < -PANEL_W) return;
+  const [r,g,b] = hexToRgb(p.color);
+  const pulse   = 0.8 + Math.sin(tick * 0.03 + i * 0.7) * 0.15;
+
+  cx.fillStyle = '#0c0a1c'; cx.fillRect(fx-12, fy-12, PANEL_W+24, PANEL_H+70);
+  cx.fillStyle = '#100e24';
+  for (let row = 0; row < 8; row++) cx.fillRect(fx-12, fy-12+row*50, PANEL_W+24, 1);
+  cx.fillStyle = '#181430';
+  cx.fillRect(fx-12, fy-12, 6, PANEL_H+70); cx.fillRect(fx+PANEL_W+6, fy-12, 6, PANEL_H+70);
+  cx.fillStyle = '#251e42';
+  cx.fillRect(fx-12, fy-12, 2, PANEL_H+70); cx.fillRect(fx+PANEL_W+10, fy-12, 2, PANEL_H+70);
+
+  cx.fillStyle = '#08060f'; cx.fillRect(fx, fy, PANEL_W, PANEL_H);
+  cx.fillStyle = p.color;   cx.fillRect(fx, fy, PANEL_W, 2);
+  cx.fillStyle = `rgba(${r},${g},${b},0.14)`; cx.fillRect(fx, fy, 3, PANEL_H);
+  drawGlow(cx, fx+PANEL_W/2, fy+PANEL_H*0.4, PANEL_W*0.6, p.color, 0.05*pulse);
+
+  cx.font = 'bold 30px monospace'; cx.textAlign = 'center';
+  cx.fillStyle = `rgba(${r},${g},${b},0.22)`;
+  cx.fillText(p.icon, fx+PANEL_W/2, fy+50);
+
+  cx.shadowBlur = 6; cx.shadowColor = p.color;
+  cx.fillStyle = '#e0d8ff'; cx.font = 'bold 12px monospace';
+  cx.fillText(p.title, fx+PANEL_W/2, fy+28); cx.shadowBlur = 0;
+
+  cx.fillStyle = `rgba(${r},${g},${b},0.3)`; cx.fillRect(fx+16, fy+36, PANEL_W-32, 1);
+
+  cx.textAlign = 'left'; cx.font = '10px monospace';
+  p.desc.forEach((l, li) => {
+    cx.fillStyle = li===0 ? '#b0a0e0' : '#706090';
+    cx.fillText(l, fx+14, fy+60+li*16);
+  });
+
+  let tx = fx+14;
+  cx.font = '8px monospace';
+  p.tags.forEach(tag => {
+    const tw = cx.measureText(tag).width + 12;
+    cx.fillStyle = `rgba(${r},${g},${b},0.12)`; cx.fillRect(tx, fy+106, tw, 14);
+    cx.fillStyle = `rgba(${r},${g},${b},0.6)`;  cx.fillRect(tx, fy+106, tw, 1);
+    cx.fillStyle = `rgba(${r},${g},${b},0.9)`;  cx.fillText(tag, tx+6, fy+116);
+    tx += tw + 6;
+  });
+
+  cx.fillStyle = 'rgba(60,50,90,0.4)'; cx.fillRect(fx+14, fy+PANEL_H-58, PANEL_W-28, 1);
+
+  const btnY = fy + PANEL_H - 44;
+  cx.fillStyle = `rgba(${r},${g},${b},0.1)`;  cx.fillRect(fx+16, btnY, PANEL_W-32, 32);
+  cx.fillStyle = `rgba(${r},${g},${b},0.35)`;
+  cx.fillRect(fx+16, btnY, PANEL_W-32, 1); cx.fillRect(fx+16, btnY+31, PANEL_W-32, 1);
+  cx.fillRect(fx+16, btnY, 1, 32);         cx.fillRect(fx+PANEL_W-17, btnY, 1, 32);
+  cx.shadowBlur = 4; cx.shadowColor = p.color;
+  cx.fillStyle = p.color; cx.font = 'bold 10px monospace'; cx.textAlign = 'center';
+  cx.fillText('[ ⎋ github.com ]', fx+PANEL_W/2, btnY+20); cx.shadowBlur = 0;
+
+  cx.fillStyle = '#1e1a38'; cx.fillRect(fx+PANEL_W/2-2, fy+PANEL_H, 4, GY-fy-PANEL_H);
+  drawTorch(cx, fx+PANEL_W/2, fy+PANEL_H, p.color, tick, i);
+  drawGlow(cx, fx+PANEL_W/2, GY, 35, p.color, 0.12*pulse);
+}
+
+// ── Main draw ─────────────────────────────────────────────────────────────────
+function draw() {
+  if (!W || !H) return;
+  const GY = H * GY_F;
+  cx.clearRect(0, 0, W, H);
+  drawCaveBG(cx, W, H, tick, camX, { groundY:GY, parallax:0.6, rngSeed:55, crystals:[], vines:[] });
+  drawCaveGround(cx, W, H, tick, camX, { groundY:GY, floorCryst });
+  PROJECTS.forEach((_, i) => drawPanel(i));
+  drawDoor(cx, EXIT_DOOR, camX, GY, Player.nearDoor===EXIT_DOOR, tick);
+  drawDust(cx, camX);
+  drawAmbientDust(cx, ambDust, camX, WORLD_W, H);
+  drawPlayer(cx, Player.x - camX, Player.y, tick);
+  drawVignette(cx, W, H);
+  drawRoomTitle(cx, '// PROJECTS · THE FORGE', 'chamber of creation', '#7c5cfc');
+  drawScrollHints(cx, W, H, camX, WORLD_W - W);
+}
+
+function loop() { tick++; update(); draw(); requestAnimationFrame(loop); }
+Player.init(80, H * GY_F);
+requestAnimationFrame(loop);
+</script>
 </body>
 </html>

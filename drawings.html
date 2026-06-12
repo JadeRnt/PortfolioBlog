@@ -1,40 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Portfolio</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="js/scripts.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Drawings — Jay</title>
+<link rel="stylesheet" href="css/cave.css">
 </head>
 <body>
+<canvas id="c"></canvas>
+<div id="hint">ARROWS / WASD · SPACE jump · ↑ or E to use exit door</div>
+<div id="fade"></div>
+<script src="js/draw.js"></script>
+<script src="js/player.js"></script>
+<script src="js/room.js"></script>
+<script>
+const cv = document.getElementById('c'), cx = cv.getContext('2d');
+let W = window.innerWidth, H = window.innerHeight;
+cv.width = W; cv.height = H;
+function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+window.addEventListener('resize', resize);
+fadeIn();
 
-  <header>
-    <nav>
-<div id="user-display" style="position:absolute; right:25px; top:23px; font-family:monospace;"></div><div id="user-display" style="position:absolute; right:25px; top:23px; font-family:monospace;"></div>
-      <a href="index.html">🧭 About</a>
-      <a href="drawings.html">🎨 Drawings</a>
-      <a href="blog.html">📝 Blog</a>
-      <a href="projects.html">🛠 Projects</a>
-      <a href="login.html">🔐 Login</a>
-<span id="user-display" style="float:right; font-family:monospace;"></span>
-    </nav>
-  </header>
+// ── Drawings ──────────────────────────────────────────────────────────────────
+// To add real images: set src to the path e.g. 'drawing/dessin1.png'
+const DRAWINGS = [
+  { title:'Logo SE Polytech', desc:'Digital illustration',  src:null, color:'#e040c0' },
+  { title:'Second OC',        desc:'Original character',    src:null, color:'#a855f7' },
+  { title:'First OC',         desc:'Original character',    src:'./drawing/dessin1.png', color:'#40e8d0' },
+  { title:'Placeholder 4',    desc:'Add your drawing here', src:null, color:'#f0b040' },
+  { title:'Placeholder 5',    desc:'Add your drawing here', src:null, color:'#60d080' },
+];
 
-  <section>
-  <h1>🎨 My Drawings</h1>
+const FRAME_W = 220, FRAME_H = 255, FRAME_GAP = 65;
+const WORLD_W = Math.max(2800, DRAWINGS.length * (FRAME_W + FRAME_GAP) + 700);
+const GY_F    = 0.78;
 
-  <div class="item" onclick="event.stopPropagation(); location.href='drawing1.html'">    
-  <p>Logo SE Polytech</p>
-  </div>
+const EXIT_DOOR = {
+  x: WORLD_W - 130, w: 52,
+  label: '← EXIT', sub: 'back to world',
+  url: 'index.html',
+  returnX: 920,
+  color: '#e040c0', glyph: '↩',
+};
+const doors = [EXIT_DOOR];
 
-  <div class="item" onclick="event.stopPropagation(); location.href='drawing2.html'">
-    <p>Second OC</p>
-  </div>
+const rng = mkRng(33);
+const floorCryst = [];
+for (let x = 40; x < WORLD_W; x += 20 + rng() * 60)
+  floorCryst.push({ x, h:6+rng()*20, w:2+rng()*4, lean:rng()*.3-.15,
+    col:['#a040ff','#e040c0','#4060ff','#40e0c0'][Math.floor(rng()*4)],
+    ph:rng()*Math.PI*2, sp:.015+rng()*.02 });
 
-  <div class="item" onclick="event.stopPropagation(); location.href='drawing3.html'">
-    <p>First OC</p>
-  </div>
-</section>
+const imgs = DRAWINGS.map(d => {
+  if (!d.src) return null;
+  const i = new Image(); i.src = d.src; return i;
+});
+const ambDust = makeAmbientDust(50, WORLD_W, '#e040c0');
+let tick = 0, camX = 0;
 
+initInput(door => {
+  if (door.returnX !== undefined)
+    sessionStorage.setItem('returnX', String(door.returnX + 60));
+  navigateTo(door.url);
+});
+
+function update() {
+  if (isTransitioning()) return;
+  updatePlayer(H * GY_F, [], doors, spawnDust);
+  camX = updateCamera(camX, Player.x - W * 0.38, W, WORLD_W);
+  updateDust();
+}
+
+function drawBrickWall(GY) {
+  const bW = 60, bH = 22, M = 2;
+  cx.fillStyle = '#0a0818'; cx.fillRect(0, 0, W, GY);
+  const sx0 = Math.floor(-camX * 0.97 / bW) * bW - (camX * 0.97 % bW);
+  for (let row = 0; row < Math.ceil(GY / bH) + 1; row++) {
+    const by = row * bH;
+    const off = row % 2 === 0 ? 0 : bW / 2;
+    for (let col = -1; col < Math.ceil(W / bW) + 2; col++) {
+      const bx = sx0 + col * bW + off;
+      const v = (row * 7 + col * 3) % 3;
+      cx.fillStyle = v===0 ? '#1a1530' : v===1 ? '#161228' : '#120f22';
+      cx.fillRect(bx+M, by+M, bW-M*2, bH-M*2);
+      cx.fillStyle = 'rgba(60,50,90,0.35)';
+      cx.fillRect(bx+M, by+M, bW-M*2, 1);
+    }
+  }
+}
+
+function drawFrame(i) {
+  const GY = H * GY_F;
+  const d = DRAWINGS[i];
+  const wx = 170 + i * (FRAME_W + FRAME_GAP);
+  const fx = wx - camX;
+  if (fx > W + FRAME_W || fx < -FRAME_W) return;
+  const fy = GY - FRAME_H - 50;
+  const [r,g,b] = hexToRgb(d.color);
+  const pulse = 0.8 + Math.sin(tick * 0.025 + i * 0.9) * 0.15;
+
+  cx.fillStyle='#252040'; cx.fillRect(fx+FRAME_W/2-2, fy-38, 4, 38);
+  drawTorch(cx, fx+FRAME_W/2, fy-38, d.color, tick, i);
+  drawGlow(cx, fx+FRAME_W/2, fy-32, 24, d.color, 0.28*pulse);
+
+  cx.fillStyle='#2a2040'; cx.fillRect(fx-10, fy-10, FRAME_W+20, FRAME_H+20);
+  cx.fillStyle='#3d3060';
+  cx.fillRect(fx-10, fy-10, FRAME_W+20, 3); cx.fillRect(fx-10, fy+FRAME_H+7, FRAME_W+20, 3);
+  cx.fillRect(fx-10, fy-10, 3, FRAME_H+20); cx.fillRect(fx+FRAME_W+7, fy-10, 3, FRAME_H+20);
+  cx.fillStyle=`rgba(${r},${g},${b},0.45)`;
+  cx.fillRect(fx-3, fy-3, FRAME_W+6, 2); cx.fillRect(fx-3, fy+FRAME_H+1, FRAME_W+6, 2);
+  cx.fillRect(fx-3, fy-3, 2, FRAME_H+6); cx.fillRect(fx+FRAME_W+1, fy-3, 2, FRAME_H+6);
+
+  cx.fillStyle='#06040e'; cx.fillRect(fx, fy, FRAME_W, FRAME_H);
+  drawGlow(cx, fx+FRAME_W/2, fy+FRAME_H/2, FRAME_W*0.6, d.color, 0.05);
+
+  const img = imgs[i];
+  if (img && img.complete && img.naturalWidth > 0) {
+    const aspect = img.naturalWidth / img.naturalHeight;
+    let dw = FRAME_W-16, dh = (FRAME_W-16)/aspect;
+    if (dh > FRAME_H-16) { dh = FRAME_H-16; dw = dh*aspect; }
+    cx.drawImage(img, fx+(FRAME_W-dw)/2, fy+(FRAME_H-dh)/2, dw, dh);
+  } else {
+    cx.strokeStyle=`rgba(${r},${g},${b},0.2)`; cx.lineWidth=1;
+    cx.strokeRect(fx+20, fy+20, FRAME_W-40, FRAME_H-55);
+    cx.beginPath(); cx.moveTo(fx+20,fy+20); cx.lineTo(fx+FRAME_W-20,fy+FRAME_H-55); cx.stroke();
+    cx.beginPath(); cx.moveTo(fx+FRAME_W-20,fy+20); cx.lineTo(fx+20,fy+FRAME_H-55); cx.stroke();
+    cx.fillStyle=`rgba(${r},${g},${b},0.4)`; cx.font='26px monospace'; cx.textAlign='center';
+    cx.fillText('🖼', fx+FRAME_W/2, fy+FRAME_H/2-8);
+    cx.font='9px monospace'; cx.fillStyle=`rgba(${r},${g},${b},0.3)`;
+    cx.fillText('[ no image ]', fx+FRAME_W/2, fy+FRAME_H/2+14);
+  }
+
+  cx.fillStyle='#1a1530'; cx.fillRect(fx+20, fy+FRAME_H+4, FRAME_W-40, 34);
+  cx.fillStyle='#2a2048'; cx.fillRect(fx+20, fy+FRAME_H+4, FRAME_W-40, 1);
+  cx.fillStyle='#c8b8ff'; cx.font='bold 10px monospace'; cx.textAlign='center';
+  cx.fillText(d.title, fx+FRAME_W/2, fy+FRAME_H+20);
+  cx.fillStyle='#5a5080'; cx.font='9px monospace';
+  cx.fillText(d.desc, fx+FRAME_W/2, fy+FRAME_H+32);
+
+  cx.fillStyle=d.color; cx.font='8px monospace';
+  cx.shadowBlur=4; cx.shadowColor=d.color;
+  cx.fillText('#'+String(i+1).padStart(3,'0'), fx+FRAME_W/2, fy-16);
+  cx.shadowBlur=0;
+}
+
+function draw() {
+  const GY = H * GY_F;
+  if (!W || !H) return;
+  cx.clearRect(0, 0, W, H);
+  drawBrickWall(GY);
+  drawCaveGround(cx, W, H, tick, camX, { groundY:GY, floorCryst });
+  DRAWINGS.forEach((_, i) => drawFrame(i));
+  drawDoor(cx, EXIT_DOOR, camX, GY, Player.nearDoor === EXIT_DOOR, tick);
+  drawDust(cx, camX);
+  drawAmbientDust(cx, ambDust, camX, WORLD_W, H);
+  drawPlayer(cx, Player.x - camX, Player.y, tick);
+  drawVignette(cx, W, H);
+  drawRoomTitle(cx, '// DRAWINGS · THE GALLERY', 'hall of visions', '#e040c0');
+  drawScrollHints(cx, W, H, camX, WORLD_W - W);
+}
+
+function loop() { tick++; update(); draw(); requestAnimationFrame(loop); }
+Player.init(80, H * GY_F);
+requestAnimationFrame(loop);
+</script>
 </body>
 </html>
